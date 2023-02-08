@@ -1,20 +1,11 @@
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:untitled1/elemensts/my_grup.dart';
 import 'package:untitled1/elemensts/raspisanieDay.dart';
 import 'package:untitled1/main.dart';
 import 'package:untitled1/mycolors.dart';
 import 'package:untitled1/elemensts/timetableElement.dart';
 import 'package:http/http.dart' as http;
-import 'package:html/parser.dart';
 import 'dart:convert';
-import 'package:calendar_appbar/calendar_appbar.dart';
 import 'package:untitled1/screens/choose_group.dart';
-
-import 'autorizationWiget.dart';
 
 //String groupLink = '?group=13226';
 String groupLink = selectedGroup.link;
