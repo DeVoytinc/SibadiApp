@@ -14,13 +14,9 @@ class SocSeti extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
-         // border: Border.all(  color:  Color.fromARGB(255, 255, 255, 255),),
           borderRadius: BorderRadius.circular(16),
-          //color:  Color.fromARGB(255, 255, 255, 255),
-    
         ),
         child: Image.asset(imagePath,
-        // color: Color.fromARGB(255, 60, 116, 213),
         height: 55,
         ) ,
       ),
