@@ -56,8 +56,6 @@ class _ChooseZachetcaState extends State<ChooseZachetca> with SingleTickerProvid
     });
     super.initState();
   }
-  //var searchGroups = groups;
-  //late Group selectedGroup;
   
    @override
   Widget build(BuildContext context) {
