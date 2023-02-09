@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const Color mybackground = Color.fromARGB(255, 243, 243, 243);
 const Color myblock = Color.fromARGB(255, 255, 255, 255);
 const Color myblue = Color.fromARGB(255, 33, 153, 238);
-const Color myred = Color.fromARGB(255, 252, 161, 161);
+const Color myred = Color.fromARGB(255, 218, 42, 42);
 const Color mygrey = Color.fromARGB(255, 217, 217, 217);
 const Color myyellow = Color.fromARGB(255, 255, 224, 114);
 const Color mygreen = Color.fromARGB(255, 146, 228, 149);

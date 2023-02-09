@@ -75,7 +75,7 @@ ThemeData lightThemeData(BuildContext context) {
       primaryColor: Color(0xFF5B4B49),
       colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Color(0xFF24A751)),
       scaffoldBackgroundColor: mygrey,
-      bottomAppBarColor: Color.fromARGB(255, 185, 38, 38),
+      bottomAppBarColor: Color.fromARGB(255, 255, 255, 255),
       canvasColor: Colors.white,
       );
       

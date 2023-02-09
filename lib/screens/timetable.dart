@@ -31,7 +31,7 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
   List indexesWithDate = [];
   List<String> listOfDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   PageController daysController = PageController(viewportFraction: 1, initialPage: 12);
-  PageController raspController = PageController(viewportFraction: 1, initialPage: ((26 * 7) / 2).round() - 3);
+  PageController raspController = PageController(viewportFraction: 1, initialPage: ((26 * 7) / 2).round());
   int daypageindex = 0;
   int listpageindex = 0;
 
@@ -165,97 +165,95 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
                           child: IntrinsicHeight(
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8.0),
-                              child: Expanded(
+                              child: Container(
                                 child: Container(
-                                  child: Container(
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), 
-                                      color: Theme.of(context).canvasColor
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            margin: EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 10),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  raspPerDate[date]![listindex].customName != '' ? 
-                                                  raspPerDate[date]![listindex].customName :
-                                                  raspPerDate[date]![listindex].disciplineName,
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    //color: Colors.black,
-                                                  )
-                                                ),
-                                                Text(
-                                                  textAlign: TextAlign.left,
-                                                  raspPerDate[date]![listindex].lessonType+ ', ' 
-                                                  + raspPerDate[date]![listindex].teacherName,
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white60,
-        
-                                                  )
-                                                ),
-                                                Text(
-                                                  textAlign: TextAlign.left,
-                                                  raspPerDate[date]![listindex].auditory,
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white60,
-        
-                                                  )
-                                                ),
-                                              ],
-                                            ),          
-                                          ),
-                                        ),
-                                        Column(
-                                          children: [
-                                            Container(
-                                              width: 40,
-                                              child: IconButton(
-                                                onPressed: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: ((context) {
-                                                      customTextController.text = raspPerDate[date]![listindex].disciplineName;
-                                                      return AlertDialog(
-                                                        title: Text("Редактировать предмет"),
-                                                        //content: Text("Would you like to continue learning how to use Flutter alerts?"),
-                                                        content: TextFormField(
-                                                          controller: customTextController,
-                                                          //initialValue: raspPerDate[selectedIndex][index].disciplineName,
-                                                          ),
-                                                        actions: [
-                                                          //cancelButton,
-                                                          TextButton(
-                                                            child: Text("Continue"),
-                                                            onPressed:  () {
-                                                              setState(() {
-                                                                raspPerDate[date]?[listindex].customName = customTextController.text;
-                                                                Navigator.pop(context, 'Cancel');
-                                                                
-                                                              });
-                                                            },
-                                                          ),
-                                                        ],
-                                                      );
-                                                    })
-                                                );
-                                                },
-                                                icon: Icon(Icons.more_vert)
-                                                ),
-                                            ),
-                                            Expanded(child: Container())
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                    
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), 
+                                    color: Theme.of(context).canvasColor
                                   ),
-                                )
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          margin: EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 10),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                raspPerDate[date]![listindex].customName != '' ? 
+                                                raspPerDate[date]![listindex].customName :
+                                                raspPerDate[date]![listindex].disciplineName,
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  //color: Colors.black,
+                                                )
+                                              ),
+                                              Text(
+                                                textAlign: TextAlign.left,
+                                                raspPerDate[date]![listindex].lessonType+ ', ' 
+                                                + raspPerDate[date]![listindex].teacherName,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.white60,
+        
+                                                )
+                                              ),
+                                              Text(
+                                                textAlign: TextAlign.left,
+                                                raspPerDate[date]![listindex].auditory,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.white60,
+        
+                                                )
+                                              ),
+                                            ],
+                                          ),          
+                                        ),
+                                      ),
+                                      Column(
+                                        children: [
+                                          Container(
+                                            width: 40,
+                                            child: IconButton(
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: ((context) {
+                                                    customTextController.text = raspPerDate[date]![listindex].disciplineName;
+                                                    return AlertDialog(
+                                                      title: Text("Редактировать предмет"),
+                                                      //content: Text("Would you like to continue learning how to use Flutter alerts?"),
+                                                      content: TextFormField(
+                                                        controller: customTextController,
+                                                        //initialValue: raspPerDate[selectedIndex][index].disciplineName,
+                                                        ),
+                                                      actions: [
+                                                        //cancelButton,
+                                                        TextButton(
+                                                          child: Text("Continue"),
+                                                          onPressed:  () {
+                                                            setState(() {
+                                                              raspPerDate[date]?[listindex].customName = customTextController.text;
+                                                              Navigator.pop(context, 'Cancel');
+                                                              
+                                                            });
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  })
+                                              );
+                                              },
+                                              icon: Icon(Icons.more_vert)
+                                              ),
+                                          ),
+                                          Expanded(child: Container())
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  
+                                ),
                               ),
                             ),
                           ),
@@ -324,13 +322,13 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Row(
                         children: [
+                          RaspisanieDayConstructor(0 + 7 * index),
+                          RaspisanieDayConstructor(1 + 7 * index),
                           RaspisanieDayConstructor(2 + 7 * index),
                           RaspisanieDayConstructor(3 + 7 * index),
                           RaspisanieDayConstructor(4 + 7 * index),
                           RaspisanieDayConstructor(5 + 7 * index),
                           RaspisanieDayConstructor(6 + 7 * index),
-                          RaspisanieDayConstructor(7 + 7 * index),
-                          RaspisanieDayConstructor(8 + 7 * index),
                           
                         ],
                       ),

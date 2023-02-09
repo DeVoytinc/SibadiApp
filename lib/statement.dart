@@ -106,12 +106,12 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                             children: [
                               Expanded(
                                 child: Container(
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: mygrey),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color.fromARGB(255, 196, 196, 196),),
                                   child: Container(
-                                    margin: EdgeInsets.only(left: 7),
+                                    margin: EdgeInsets.only(left: 5),
                                     child: Container(
                         
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white),
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color:Color.fromARGB(255, 18, 21, 27),),
                                       child: IntrinsicHeight(
                                         child: Row(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +124,7 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                                                   disciplines[index].disciplineName,
                                                   style: TextStyle(
                                                     fontSize: 18,
-                                                    color: Colors.black,
+                                                    color: Color.fromARGB(255, 196, 196, 196),
                                                   )
                                                   ),
                                                                 
@@ -142,8 +142,8 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                                                       disciplines[index].disciplineType,
                                                       textAlign: TextAlign.center,
                                                       style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.white,
+                                                        fontSize: 18,
+                                                        color: Color.fromARGB(255, 255, 255, 255),
                                                       ),
                                                     ),
                                                   ),
@@ -217,7 +217,7 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
       ),
       
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 18, 21, 27),
         title: Padding(
           padding: const EdgeInsets.only(top: 18.0),
           child: Center(
@@ -234,7 +234,7 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
           child: Container(
-          color: Colors.white,
+          color: Color.fromARGB(255, 18, 21, 27),
           child: TabBar(
             //labelColor: Colors.white,
             indicatorColor: myblue,
@@ -247,7 +247,7 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                   'Общая',
                   textScaleFactor: 1.3,
                   style: TextStyle(
-                    color: Color.fromARGB(255, 95, 95, 95),
+                    color: Color.fromARGB(255, 196, 196, 196),
                   ),
                 ),
               ),
@@ -257,7 +257,7 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                   'Личная',
                   textScaleFactor: 1.3,
                   style: TextStyle(
-                    color: Color.fromARGB(255, 95, 95, 95),
+                    color: Color.fromARGB(255, 196, 196, 196),
                   ),
                 ),
               ),
@@ -267,7 +267,7 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                   'Зачетка',
                   textScaleFactor: 1.3,
                   style: TextStyle(
-                    color: Color.fromARGB(255, 95, 95, 95),
+                    color: Color.fromARGB(255, 196, 196, 196),
                   ),
                 ),
               ),
