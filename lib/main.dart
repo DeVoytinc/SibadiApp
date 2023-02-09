@@ -111,8 +111,6 @@ class MyApp extends StatelessWidget {
         final themeProvider = Provider.of<ThemeProvider>(context);
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          //theme: dartMode ? lightThemeData(context) : darkThemeData(context),
-          //debugShowCheckedModeBanner: false,
           theme: lightThemeData(context),
           darkTheme: darkThemeData(context),
           themeMode: themeProvider.themeMode,
