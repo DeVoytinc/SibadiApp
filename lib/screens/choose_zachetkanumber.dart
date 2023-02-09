@@ -56,8 +56,6 @@ class _ChooseZachetcaState extends State<ChooseZachetca> with SingleTickerProvid
     });
     super.initState();
   }
-  //var searchGroups = groups;
-  //late Group selectedGroup;
   
    @override
   Widget build(BuildContext context) {
@@ -65,7 +63,6 @@ class _ChooseZachetcaState extends State<ChooseZachetca> with SingleTickerProvid
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 60, 116, 213),
-          // The search area here
         title: Center(
           child: Text("Номер зачётки",
         ),
