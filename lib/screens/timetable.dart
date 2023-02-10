@@ -31,7 +31,7 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
   List indexesWithDate = [];
   List<String> listOfDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   PageController daysController = PageController(viewportFraction: 1, initialPage: 12);
-  PageController raspController = PageController(viewportFraction: 1, initialPage: ((26 * 7) / 2).round() - 3);
+  PageController raspController = PageController(viewportFraction: 1, initialPage: ((26 * 7) / 2).round());
   int daypageindex = 0;
   int listpageindex = 0;
 

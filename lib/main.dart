@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+//import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled1/screens/autorizationWiget.dart';
 import 'package:untitled1/mycolors.dart';
@@ -75,7 +75,7 @@ ThemeData lightThemeData(BuildContext context) {
       primaryColor: Color(0xFF5B4B49),
       colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Color(0xFF24A751)),
       scaffoldBackgroundColor: mygrey,
-      bottomAppBarColor: Color.fromARGB(255, 185, 38, 38),
+      bottomAppBarColor: Color.fromARGB(255, 255, 255, 255),
       canvasColor: Colors.white,
       );
       
@@ -111,8 +111,6 @@ class MyApp extends StatelessWidget {
         final themeProvider = Provider.of<ThemeProvider>(context);
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          //theme: dartMode ? lightThemeData(context) : darkThemeData(context),
-          //debugShowCheckedModeBanner: false,
           theme: lightThemeData(context),
           darkTheme: darkThemeData(context),
           themeMode: themeProvider.themeMode,
