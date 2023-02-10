@@ -264,6 +264,7 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
                                                 //color: Colors.black,
                                               )
                                             ),
+                                             SizedBox(height: 4,),
                                             Text(
                                               textAlign: TextAlign.left,
                                               raspPerDate[date]![listindex].lessonType+ ', ' 
@@ -274,12 +275,13 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
         
                                               )
                                             ),
+                                            SizedBox(height: 7,),
                                             Text(
                                               textAlign: TextAlign.left,
                                               raspPerDate[date]![listindex].auditory,
                                               style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.white60,
+                                                fontSize: 18,
+                                                color: Colors.white70,
         
                                               )
                                             ),
