@@ -23,11 +23,11 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
   Map<DateTime, List<Lesson>> raspPerDate = Map();
   TextEditingController customTextController = TextEditingController();
   // DateTime threeMonthAgo = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).subtract(Duration(days: 13 * 7 + (7 - DateTime.now().weekday)));
-  DateTime threeMonthAgo = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).subtract(Duration(days: 13 * 7 - DateTime.now().weekday));
+  DateTime threeMonthAgo = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).subtract(Duration(days: 13 * 7 - (DateTime.now().weekday - 2)));
   DateTime threeMonthBefore = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).add(Duration(days: 13 * 7 + (7 - DateTime.now().weekday)));
   //DateTime selectedDate = DateTime.now();
   DateTime curDate = DateTime.now();
-  int selectedIndex = ((26 * 7) / 2).round() + 1 + DateTime.now().weekday - 7;
+  int selectedIndex = ((26 * 7) / 2).round() + DateTime.now().weekday - 8;
   List indexesWithDate = [];
   List<String> listOfDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   PageController daysController = PageController(viewportFraction: 1, initialPage: 12);
@@ -66,7 +66,7 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
   void _changeSelectedIndex(int i){
     setState(() {
       selectedIndex = i;
-      raspController.jumpToPage(selectedIndex);
+      raspController.animateToPage(selectedIndex, duration: Duration(milliseconds: 300), curve: Curves.ease);
       //print(indexesWithDate[i+ 1]);
     });
   }
@@ -79,32 +79,11 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
     super.initState();
   }
 
-  DateTime mostRecentWeekday(DateTime date, int weekday){
-    return DateTime(date.year, date.month, date.day - (date.weekday - 1));
-  }
-
-  List<DateTime> getWeek(DateTime data){
-    DateTime monday = mostRecentWeekday(data, 1);
-    //print(monday);
-    List<DateTime> week = List.generate(7, (int index) => monday.add(Duration(days: index)), growable: false);
-    return week;
-  }
-
-  List<List<DateTime>> getWeeksPeriodDate(){
-    List<List<DateTime>> period = [];
-    for( int i = 13; i > 0; i--){
-      period.add(getWeek(curDate.subtract(Duration(days: 7 * i))));
-    }
-    for( int i = 0; i < 13; i++){
-      period.add(getWeek(curDate.add(Duration(days: 7 * i))));
-    }
-    return period;
-  }
 
 
   Widget RaspisanieDayConstructor(int index){
     
-    List<List<DateTime>> nowPeriod = getWeeksPeriodDate();
+    //List<List<DateTime>> nowPeriod = getWeeksPeriodDate();
     return Expanded(
       child: GestureDetector(
         onTap: () {
@@ -120,10 +99,110 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
       ),
     );
   }  
-  
-  Widget Raspis(DateTime date){
-    //List<List<DateTime>> nowPeriod = getWeeksPeriodDate();
-    if (!raspPerDate.containsKey(date)) {
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    int count = threeMonthBefore.difference(threeMonthAgo).inDays;
+    indexesWithDate = List.generate(count, (index) => threeMonthAgo.add(Duration(days: index)));
+    int tempforCreatingCalendar = 0;
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed:  () {Navigator.pop(context, 'Cancel');},
+    );
+    Widget continueButton = TextButton(
+      child: Text("Continue"),
+      onPressed:  () {},
+    );
+
+    return Scaffold(
+      body: Container(
+        child: Column(
+          children: [
+            Container(
+                height: 80,
+                width: double.infinity,
+                color: Theme.of(context).canvasColor,
+                child: PageView.builder(
+                  scrollDirection: Axis.horizontal,
+                  controller: daysController,
+                  onPageChanged:(value) => setState(() {
+                    if (value < daypageindex){
+                      //selectedIndex = selectedIndex - 7;
+                      daypageindex = value;
+                      _changeSelectedIndex(selectedIndex - 7);
+                      raspController.jumpToPage(selectedIndex);
+                    }
+                    else if (value > daypageindex){
+                      //selectedIndex = selectedIndex + 7;
+                      daypageindex = value;
+                      _changeSelectedIndex(selectedIndex + 7);
+                      raspController.jumpToPage(selectedIndex);
+                    }
+                    else {
+
+                    }
+                  }),
+                  physics: BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics(),
+                  ),
+                  itemCount: 26, 
+                  itemBuilder: (BuildContext context, int index) {  
+                    //tempforCreatingCalendar = tempforCreatingCalendar + 7;
+                    //print(index);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Row(
+                        children: [
+                          RaspisanieDayConstructor(0 + 7 * index),
+                          RaspisanieDayConstructor(1 + 7 * index),
+                          RaspisanieDayConstructor(2 + 7 * index),
+                          RaspisanieDayConstructor(3 + 7 * index),
+                          RaspisanieDayConstructor(4 + 7 * index),
+                          RaspisanieDayConstructor(5 + 7 * index),
+                          RaspisanieDayConstructor(6 + 7 * index),
+                          
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                // 4 число с 10 до 6, 5 число с 10 до 3-5
+              ),
+              FutureBuilder(
+                future: raspPerDate.isEmpty ? getData() : null,
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData){
+                    return Expanded(
+                      child: Center(
+                        // child: Text("loading"),
+                        child: CircularProgressIndicator(),
+                        ),
+                    );
+                  }
+                  else {
+                    //int daynum = 0;
+                    return Expanded(
+                      child: PageView.builder(
+                        scrollDirection: Axis.horizontal,
+                        //controller: PageController(viewportFraction: 1, initialPage: ((26 * 7) / 2).round() - 3),
+                        controller: raspController,
+                        onPageChanged:(value)  {
+                          //_changeSelectedIndex(value);
+                          print(indexesWithDate[value]);
+                          },
+                        physics: BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics(),
+                        ),
+                        itemCount: 26*7, 
+                        itemBuilder: (BuildContext context, int index) {
+                          //daynum++;
+                        //int daynum = index % 7;
+                        print(indexesWithDate[index]);
+                        //return Raspis(indexesWithDate[index]);
+                        var date = indexesWithDate[index];
+                        if (!raspPerDate.containsKey(date)) {
       return Container(); 
     }
     List<Lesson>? lesson = raspPerDate[date];
@@ -163,99 +242,93 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
                             color: raspPerDate[date]![listindex].color,
                           ),
                           child: IntrinsicHeight(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Expanded(
-                                child: Container(
-                                  child: Container(
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), 
-                                      color: Theme.of(context).canvasColor
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            margin: EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 10),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  raspPerDate[date]![listindex].customName != '' ? 
-                                                  raspPerDate[date]![listindex].customName :
-                                                  raspPerDate[date]![listindex].disciplineName,
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    //color: Colors.black,
-                                                  )
-                                                ),
-                                                Text(
-                                                  textAlign: TextAlign.left,
-                                                  raspPerDate[date]![listindex].lessonType+ ', ' 
-                                                  + raspPerDate[date]![listindex].teacherName,
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white60,
-        
-                                                  )
-                                                ),
-                                                Text(
-                                                  textAlign: TextAlign.left,
-                                                  raspPerDate[date]![listindex].auditory,
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white60,
-        
-                                                  )
-                                                ),
-                                              ],
-                                            ),          
-                                          ),
-                                        ),
-                                        Column(
+                            child: Container(
+                              child: Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), 
+                                  color: Theme.of(context).canvasColor
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        margin: EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 10),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Container(
-                                              width: 40,
-                                              child: IconButton(
-                                                onPressed: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: ((context) {
-                                                      customTextController.text = raspPerDate[date]![listindex].disciplineName;
-                                                      return AlertDialog(
-                                                        title: Text("Редактировать предмет"),
-                                                        //content: Text("Would you like to continue learning how to use Flutter alerts?"),
-                                                        content: TextFormField(
-                                                          controller: customTextController,
-                                                          //initialValue: raspPerDate[selectedIndex][index].disciplineName,
-                                                          ),
-                                                        actions: [
-                                                          //cancelButton,
-                                                          TextButton(
-                                                            child: Text("Continue"),
-                                                            onPressed:  () {
-                                                              setState(() {
-                                                                raspPerDate[date]?[listindex].customName = customTextController.text;
-                                                                Navigator.pop(context, 'Cancel');
-                                                                
-                                                              });
-                                                            },
-                                                          ),
-                                                        ],
-                                                      );
-                                                    })
-                                                );
-                                                },
-                                                icon: Icon(Icons.more_vert)
-                                                ),
+                                            Text(
+                                              raspPerDate[date]![listindex].customName != '' ? 
+                                              raspPerDate[date]![listindex].customName :
+                                              raspPerDate[date]![listindex].disciplineName,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                //color: Colors.black,
+                                              )
                                             ),
-                                            Expanded(child: Container())
+                                            Text(
+                                              textAlign: TextAlign.left,
+                                              raspPerDate[date]![listindex].lessonType+ ', ' 
+                                              + raspPerDate[date]![listindex].teacherName,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.white60,
+        
+                                              )
+                                            ),
+                                            Text(
+                                              textAlign: TextAlign.left,
+                                              raspPerDate[date]![listindex].auditory,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.white60,
+        
+                                              )
+                                            ),
                                           ],
-                                        )
-                                      ],
+                                        ),          
+                                      ),
                                     ),
-                                    
-                                  ),
-                                )
+                                    // Column(
+                                    //   children: [
+                                    //     Container(
+                                    //       width: 40,
+                                    //       child: IconButton(
+                                    //         onPressed: () {
+                                    //           showDialog(
+                                    //             context: context,
+                                    //             builder: ((context) {
+                                    //               customTextController.text = raspPerDate[date]![listindex].disciplineName;
+                                    //               return AlertDialog(
+                                    //                 title: Text("Редактировать предмет"),
+                                    //                 //content: Text("Would you like to continue learning how to use Flutter alerts?"),
+                                    //                 content: TextFormField(
+                                    //                   controller: customTextController,
+                                    //                   //initialValue: raspPerDate[selectedIndex][index].disciplineName,
+                                    //                   ),
+                                    //                 actions: [
+                                    //                   //cancelButton,
+                                    //                   TextButton(
+                                    //                     child: Text("Continue"),
+                                    //                     onPressed:  () {
+                                    //                       setState(() {
+                                    //                         raspPerDate[date]?[listindex].customName = customTextController.text;
+                                    //                         Navigator.pop(context, 'Cancel');
+                                                            
+                                    //                       });
+                                    //                     },
+                                    //                   ),
+                                    //                 ],
+                                    //               );
+                                    //             })
+                                    //         );
+                                    //         },
+                                    //         icon: Icon(Icons.more_vert)
+                                    //         ),
+                                    //     ),
+                                    //   ],
+                                    // )
+                                  ],
+                                ),
+                                
                               ),
                             ),
                           ),
@@ -271,105 +344,6 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
         }
       ),
     );
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    int count = threeMonthBefore.difference(threeMonthAgo).inDays;
-    indexesWithDate = List.generate(count, (index) => threeMonthAgo.add(Duration(days: index)));
-    int tempforCreatingCalendar = 0;
-    Widget cancelButton = TextButton(
-      child: Text("Cancel"),
-      onPressed:  () {Navigator.pop(context, 'Cancel');},
-    );
-    Widget continueButton = TextButton(
-      child: Text("Continue"),
-      onPressed:  () {},
-    );
-    daypageindex = daysController.initialPage;
-    return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            Container(
-                height: 80,
-                width: double.infinity,
-                color: Theme.of(context).canvasColor,
-                child: PageView.builder(
-                  scrollDirection: Axis.horizontal,
-                  controller: daysController,
-                  onPageChanged:(value) => setState(() {
-                    if (value < daypageindex){
-                      //selectedIndex = selectedIndex - 7;
-                      _changeSelectedIndex(selectedIndex - 7);
-                      daypageindex = value;
-                      raspController.jumpToPage(selectedIndex);
-                    }
-                    else if (value > daypageindex){
-                      //selectedIndex = selectedIndex + 7;
-                      _changeSelectedIndex(selectedIndex + 7);
-                      daypageindex = value;
-                      raspController.jumpToPage(selectedIndex);
-                    }
-                  }),
-                  physics: BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics(),
-                  ),
-                  itemCount: 26, 
-                  itemBuilder: (BuildContext context, int index) {  
-                    tempforCreatingCalendar = tempforCreatingCalendar + 7;
-                    //print(index);
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Row(
-                        children: [
-                          RaspisanieDayConstructor(2 + 7 * index),
-                          RaspisanieDayConstructor(3 + 7 * index),
-                          RaspisanieDayConstructor(4 + 7 * index),
-                          RaspisanieDayConstructor(5 + 7 * index),
-                          RaspisanieDayConstructor(6 + 7 * index),
-                          RaspisanieDayConstructor(7 + 7 * index),
-                          RaspisanieDayConstructor(8 + 7 * index),
-                          
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                // 4 число с 10 до 6, 5 число с 10 до 3-5
-              ),
-              FutureBuilder(
-                future: raspPerDate.isEmpty ? getData() : null,
-                builder: (context, AsyncSnapshot snapshot) {
-                  if (!snapshot.hasData){
-                    return Expanded(
-                      child: Center(
-                        // child: Text("loading"),
-                        child: CircularProgressIndicator(),
-                        ),
-                    );
-                  }
-                  else {
-                    //int daynum = 0;
-                    return Expanded(
-                      child: PageView.builder(
-                        scrollDirection: Axis.horizontal,
-                        //controller: PageController(viewportFraction: 1, initialPage: ((26 * 7) / 2).round() - 3),
-                        controller: raspController,
-                        onPageChanged:(value)  {
-                          _changeSelectedIndex(value);
-                          print(indexesWithDate[value]);
-                          },
-                        physics: BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics(),
-                        ),
-                        itemCount: 26*7, 
-                        itemBuilder: (BuildContext context, int index) {
-                          //daynum++;
-                        //int daynum = index % 7;
-                        print(indexesWithDate[index]);
-                        return Raspis(indexesWithDate[index]);
                       }
                   
                     ),
