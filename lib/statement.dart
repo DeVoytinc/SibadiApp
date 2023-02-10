@@ -1,11 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:untitled1/PersonalStateMent.dart';
-import 'package:untitled1/itemCommonStatement.dart';
+import 'package:untitled1/commonStatementScreen.dart';
 import 'package:untitled1/mycolors.dart';
-import 'package:untitled1/elemensts/post.dart';
-import 'package:untitled1/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 import 'package:untitled1/screens/choose_group.dart';
@@ -43,15 +39,15 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
       //var table2 = document.getElementsByClassName('dxgvDataRow_MaterialCompact dxgvDataRowAlt_MaterialCompact');
       for(int i = 0; i < table.length; i= i + 2){
         String type = windows1251.decode(table[i].parentNode!.parentNode!.nodes.toList()[1].nodes.toList()[0].text!.codeUnits);
-        Color cl = mygreen;
+        Color cl = mygreenDark;
         if (type == "Экзамен") {
-          cl = myyellow;
+          cl = myyellowDark;
         }
         if (type == "Курсовая работа") {
-          cl = myred;
+          cl = myredDark;
         }
         if (type == "Курсовой проект") {
-          cl = myred;
+          cl = myredDark;
         }
         disciplines.add(CommonStatement(disciplineName: windows1251.decode(table[i].text.codeUnits), disciplineType: type, color: cl));
       }
@@ -59,6 +55,19 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
       return disciplines;
     }
     return disciplines;
+  }
+
+  void goBack(BuildContext context){
+    Navigator.pop(context);
+  }
+
+  void goToNextPage(BuildContext context){
+    Navigator.push(
+      context, 
+      new MaterialPageRoute(builder: (BuildContext context) => 
+        new CommonStatementScreen()
+      )
+    );
   }
 
   @override
@@ -102,63 +111,65 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                       children: [
                         Container(
                           margin: EdgeInsets.all(10),
-                          child: Row(
-                            children: [
-                              Expanded(
+                          child: GestureDetector(
+                            onTap: (() => goToNextPage(context)),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10), 
+                                color: Color.fromARGB(255, 196, 196, 196),
+                                //color: disciplines[index].color,
+                                ),
+                              child: Container(
+                                margin: EdgeInsets.only(left: 5),
                                 child: Container(
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color.fromARGB(255, 196, 196, 196),),
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 5),
-                                    child: Container(
-                        
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color:Color.fromARGB(255, 18, 21, 27),),
-                                      child: IntrinsicHeight(
-                                        child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              flex: 10,
-                                              child: Container(
-                                                margin: EdgeInsets.all(10),
+                                                  
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color:Color.fromARGB(255, 18, 21, 27),),
+                                  child: IntrinsicHeight(
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          flex: 10,
+                                          child: Container(
+                                            margin: EdgeInsets.all(10),
+                                            child: Text(
+                                              disciplines[index].disciplineName,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Color.fromARGB(255, 196, 196, 196),
+                                              )
+                                              ),
+                                                            
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 4,
+                                          child: Container(
+                                            //margin: EdgeInsets.only(left: 40),
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(vertical: 10),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(12), 
+                                                color: disciplines[index].color),
+                                              child: Center(
                                                 child: Text(
-                                                  disciplines[index].disciplineName,
+                                                  disciplines[index].disciplineType,
+                                                  textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     fontSize: 18,
-                                                    color: Color.fromARGB(255, 196, 196, 196),
-                                                  )
-                                                  ),
-                                                                
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 4,
-                                              child: Container(
-                                                //margin: EdgeInsets.only(left: 40),
-                                                child: Container(
-                                                  padding: EdgeInsets.symmetric(vertical: 10),
-                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: disciplines[index].color),
-                                                  child: Center(
-                                                    child: Text(
-                                                      disciplines[index].disciplineType,
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                        color: Color.fromARGB(255, 255, 255, 255),
-                                                      ),
-                                                    ),
+                                                    color: Color.fromARGB(255, 255, 255, 255),
                                                   ),
                                                 ),
-                                              )
-                                            )
-                                          ],
-                                        ),
-                                      ),
+                                              ),
+                                            ),
+                                          )
+                                        )
+                                      ],
                                     ),
                                   ),
                                 ),
                               ),
-                              //SizedBox(height: 100,)
-                            ],
+                            ),
                           ),
                         )
                       ]

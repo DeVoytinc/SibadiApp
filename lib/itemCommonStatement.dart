@@ -37,7 +37,7 @@ class ItemCommonStatement extends StatelessWidget{
                 margin: EdgeInsets.only(left: 40),
                 width: 100,
                 child: Container(
-                  color: Color.fromARGB(255, 252, 161, 161),
+                  color: myredDark,///////////////////////////////////
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
                   child: Center(
                     child: Text(
