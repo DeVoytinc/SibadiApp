@@ -49,7 +49,12 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
         if (type == "Курсовой проект") {
           cl = myredDark;
         }
-        disciplines.add(CommonStatement(disciplineName: windows1251.decode(table[i].text.codeUnits), disciplineType: type, color: cl));
+        disciplines.add(CommonStatement(
+          disciplineName: windows1251.decode(table[i].text.codeUnits), 
+          disciplineType: type, 
+          color: cl,
+          id: "12341234"
+          ));
       }
       //disciplines.add('хуй');
       return disciplines;
@@ -295,11 +300,13 @@ class CommonStatement {
   const CommonStatement({
     required this.disciplineName,
     required this.disciplineType,
+    required this.id,
     required this.color,
   });
 
   final String disciplineName;
   final String disciplineType;
+  final String id;
   final Color color;
 
   @override

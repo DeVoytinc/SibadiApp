@@ -153,12 +153,6 @@ class TimetableTimeElement extends StatelessWidget{
             width: 50,
             height: 30,
             decoration: BoxDecoration(
-              // borderRadius: BorderRadius.only(
-              //   topLeft: Radius.circular(0),
-              //   bottomLeft: Radius.circular(0),
-              //   topRight: Radius.circular(10),
-              //   bottomRight: Radius.circular(10),
-              // ),
               borderRadius: BorderRadius.circular(10),
             color: color,
             ),
@@ -174,12 +168,6 @@ class TimetableTimeElement extends StatelessWidget{
               width: 50,
               height: 30,
               decoration: BoxDecoration(
-                // borderRadius: BorderRadius.only(
-                //   topLeft: Radius.circular(10),
-                //   bottomLeft: Radius.circular(10),
-                //   topRight: Radius.circular(0),
-                //   bottomRight: Radius.circular(0),
-                // ),
                 borderRadius: BorderRadius.circular(10),
               color: color,
               ),
@@ -192,7 +180,6 @@ class TimetableTimeElement extends StatelessWidget{
               ),
             ),
           ),
-          //SizedBox(height: 100,)
         ],
       ),
     );

@@ -184,6 +184,7 @@ class _MyHomePageState extends State<MyHomePage>
         //backgroundColor: Color.fromARGB(255, 58, 80, 75),
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: false,
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
