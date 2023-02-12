@@ -239,11 +239,11 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
           child: Center(
             child: Text(
               'Ведомость',
-              style: TextStyle(
-                color: myblue,
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                ),
+              // style: TextStyle(
+              //   //color: myblue,
+              //   fontSize: 25,
+              //   fontWeight: FontWeight.bold,
+              //   ),
             ),
           ),
         ),

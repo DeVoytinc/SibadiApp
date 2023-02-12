@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 //import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled1/screens/autorizationWiget.dart';
@@ -95,6 +96,14 @@ ThemeData darkThemeData(BuildContext context) {
     canvasColor: Color.fromARGB(255, 18, 21, 27),
     
     appBarTheme: AppBarTheme(
+      //titleTextStyle: TextStyle(color:Color.fromARGB(255, 0, 106, 25)),
+      titleTextStyle: GoogleFonts.alumniSans(
+        textStyle: TextStyle(
+          fontSize: 40,
+          // fontWeight: FontWeight.w300,
+          color:  Color.fromARGB(255, 0, 94, 255),
+        ),
+      ),
       color: Color.fromARGB(255, 18, 21, 27),
     ),
   );

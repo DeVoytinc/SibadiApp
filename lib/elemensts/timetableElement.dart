@@ -144,13 +144,13 @@ class TimetableTimeElement extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+      margin: EdgeInsets.only(top: 12, left: 12, right: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             alignment: Alignment.topRight,
-            width: 50,
+            width: 45,
             height: 30,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),

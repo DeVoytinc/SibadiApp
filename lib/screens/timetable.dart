@@ -486,25 +486,26 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
       ),
       appBar: AppBar(
         elevation: 0,
-
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.settings,
-            size: 35,
-            color: myblue,
-            ),
-        ),
+        // leading: IconButton(
+        //   onPressed: () {},
+        //   icon: Icon(
+        //     Icons.settings,
+        //     size: 35,
+        //     color: myblue,
+        //     ),
+        // ),
         title: Padding(
           padding: const EdgeInsets.only(top: 15.0),
-          child: Center(
-            child: Text(
-              'Расписание',
-              style: TextStyle(
-                color: myblue,
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                ),
+          child: Container(
+            child: Center(
+              child: Text(
+                'Расписание',
+                // style: TextStyle(
+                //   //color: myblue,
+                //   fontSize: 25,
+                //   fontWeight: FontWeight.bold,
+                //   ),
+              ),
             ),
           ),
         ),
