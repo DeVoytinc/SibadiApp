@@ -25,7 +25,7 @@ class CommonStatementForDisc extends StatefulWidget{
 class _CommonStatementForDiscState extends State<CommonStatementForDisc> with SingleTickerProviderStateMixin{
   late TabController _tabController;
 
-  List<CommonStatement> disciplines = <CommonStatement>[];
+  List<CommonStatement3> disciplines = <CommonStatement3>[];
 
 
 
@@ -53,7 +53,7 @@ class _CommonStatementForDiscState extends State<CommonStatementForDisc> with Si
         if (type == "Курсовой проект") {
           cl = myred;
         }
-        disciplines.add(CommonStatement(disciplineName: windows1251.decode(table[i].text.codeUnits), disciplineType: type, color: cl));
+        disciplines.add(CommonStatement3(disciplineName: windows1251.decode(table[i].text.codeUnits), disciplineType: type, color: cl));
       }
       //disciplines.add('хуй');
       return disciplines;
@@ -280,8 +280,8 @@ class _CommonStatementForDiscState extends State<CommonStatementForDisc> with Si
   }
 
 }
-class CommonStatement {
-  const CommonStatement({
+class CommonStatement3 {
+  const CommonStatement3({
     required this.disciplineName,
     required this.disciplineType,
     required this.color,
@@ -301,7 +301,7 @@ class CommonStatement {
     if (other.runtimeType != runtimeType) {
       return false;
     }
-    return other is CommonStatement && other.disciplineType == disciplineType && other.disciplineName == disciplineName;
+    return other is CommonStatement3 && other.disciplineType == disciplineType && other.disciplineName == disciplineName;
   }
 
   @override
