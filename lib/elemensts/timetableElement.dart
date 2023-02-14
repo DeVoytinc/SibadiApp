@@ -192,7 +192,6 @@ class TimetableTimeElement extends StatelessWidget{
               ),
             ),
           ),
-          //SizedBox(height: 100,)
         ],
       ),
     );

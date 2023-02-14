@@ -89,78 +89,84 @@ class _ChooseGroupState extends State<ChooseGroup> with SingleTickerProviderStat
             ),
           Expanded(
             child: Container(
-              child: ListView.builder(
-                controller: ScrollController(),
-                itemCount: searchGroups.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      selectedGroup = searchGroups[index];
-                      setSelectedGroup();
-                      goToNextPage(context);
-                    },
-                    child: Container(
-                      
-                      margin: EdgeInsets.only(top: 15, left: 15, right: 15),
-                      decoration: BoxDecoration (
-                      borderRadius: BorderRadius.circular(6),
-                      color: Color.fromARGB(255, 60, 116, 213),
-                      ),
-                      height: 75,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(child: Container()),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    child: Text(
-                                      (index + 1).toString(),
-                                      style: TextStyle(
-                                      fontSize: 25,
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 9,
-                                  child: Container(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          searchGroups[index].name,
+              child: FutureBuilder(
+                future: getGroups(),
+                builder: (context, snapshot) {
+                  return ListView.builder(
+                    controller: ScrollController(),
+                    itemCount: searchGroups.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          selectedGroup = searchGroups[index];
+                          setSelectedGroup();
+                          goToNextPage(context);
+                        },
+                        child: Container(
+                          
+                          margin: EdgeInsets.only(top: 15, left: 15, right: 15),
+                          decoration: BoxDecoration (
+                          borderRadius: BorderRadius.circular(6),
+                          color: Color.fromARGB(255, 60, 116, 213),
+                          ),
+                          height: 75,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(child: Container()),
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        child: Text(
+                                          (index + 1).toString(),
                                           style: TextStyle(
-                                          fontSize: 20,
+                                          fontSize: 25,
                                           color: Color.fromARGB(255, 255, 255, 255),
                                           ),
                                         ),
-                                        Text(
-                                          searchGroups[index].fack,
-                                          style: TextStyle(
-                                          fontSize: 15,
-                                          color: Color.fromARGB(144, 255, 255, 255),
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
+                                    Expanded(
+                                      flex: 9,
+                                      child: Container(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              searchGroups[index].name,
+                                              style: TextStyle(
+                                              fontSize: 20,
+                                              color: Color.fromARGB(255, 255, 255, 255),
+                                              ),
+                                            ),
+                                            Text(
+                                              searchGroups[index].fack,
+                                              style: TextStyle(
+                                              fontSize: 15,
+                                              color: Color.fromARGB(144, 255, 255, 255),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                          
                                 ),
-                              ],
-          
-                            ),
+                              ),
+                              Expanded(child: Container()),
+                            ],
                           ),
-                          Expanded(child: Container()),
-                        ],
-                      ),
-                    ),
+                        ),
+                      );
+                    }
                   );
-                }
+
+                },
               ),
             ),
           ),

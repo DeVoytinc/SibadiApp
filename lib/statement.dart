@@ -49,7 +49,12 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
         if (type == "Курсовой проект") {
           cl = myredDark;
         }
-        disciplines.add(CommonStatement(disciplineName: windows1251.decode(table[i].text.codeUnits), disciplineType: type, color: cl));
+        disciplines.add(CommonStatement(
+          disciplineName: windows1251.decode(table[i].text.codeUnits), 
+          disciplineType: type, 
+          color: cl,
+          id: table[i].attributes.values.last.split('id=')[1],
+          ));
       }
       //disciplines.add('хуй');
       return disciplines;
@@ -61,11 +66,11 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
     Navigator.pop(context);
   }
 
-  void goToNextPage(BuildContext context){
+  void goToNextPage(BuildContext context, CommonStatement discip){
     Navigator.push(
       context, 
       new MaterialPageRoute(builder: (BuildContext context) => 
-        new CommonStatementScreen()
+        new CommonStatementScreen(inputdata: discip)
       )
     );
   }
@@ -112,7 +117,7 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                         Container(
                           margin: EdgeInsets.all(10),
                           child: GestureDetector(
-                            onTap: (() => goToNextPage(context)),
+                            onTap: (() => goToNextPage(context, disciplines[index])),
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10), 
@@ -295,11 +300,13 @@ class CommonStatement {
   const CommonStatement({
     required this.disciplineName,
     required this.disciplineType,
+    required this.id,
     required this.color,
   });
 
   final String disciplineName;
   final String disciplineType;
+  final String id;
   final Color color;
 
   @override
