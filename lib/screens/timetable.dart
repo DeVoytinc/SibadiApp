@@ -447,32 +447,43 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
                         //print(indexesWithDate[index]);
                         var date = indexesWithDate[index];
                         if (!raspPerDate.containsKey(date)) {
-                          return Container(); 
-                        }
-                        List<Lesson>? lesson = raspPerDate[date];
-                        return Container(
-                          child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount: raspPerDate[date]?.length,
-                            itemBuilder: (BuildContext context, int listindex){
-                              Widget timeElement;
-                              if (listindex == 0 || (listindex > 0 && raspPerDate[date]?[listindex -1].startTime 
-                              != raspPerDate[date]![listindex].startTime)){
-                                timeElement = TimetableTimeElement(
-                                  timeLesson: raspPerDate[date]![listindex].startTime + ' - ' + raspPerDate[date]![listindex].finishTime,
-                                  lessonNumber: raspPerDate[date]![listindex].lessonNumber,
-                                  color: raspPerDate[date]![listindex].color,
-                                );
-                              } else {
-                                timeElement = Container();
-                              }
-                              return Column(
-                                children: [
-                                  timeElement,
-                                  TimeTableLessonElement(date, listindex),
-                                ]
-                              );
-                            }
+      return Container(); 
+    }
+    List<Lesson>? lesson = raspPerDate[date];
+    return Container(
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: raspPerDate[date]?.length,
+        itemBuilder: (BuildContext context, int listindex){
+          Widget timeElement;
+          if (listindex == 0 || (listindex > 0 && raspPerDate[date]?[listindex -1].startTime 
+          != raspPerDate[date]![listindex].startTime)){
+            timeElement = TimetableTimeElement(
+              timeLesson: raspPerDate[date]![listindex].startTime + ' - ' + raspPerDate[date]![listindex].finishTime,
+              lessonNumber: raspPerDate[date]![listindex].lessonNumber,
+              color: raspPerDate[date]![listindex].color,
+            );
+          } else {
+            timeElement = Container();
+          }
+          return Column(
+            children: [
+              timeElement,
+              Container(
+                margin: EdgeInsets.only(top: 12),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 12),
+                        child: Container(
+                          margin: EdgeInsets.only(right: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12), 
+                            //color: Theme.of(context).canvasColor,
+                            color: raspPerDate[date]![listindex].color,
                           ),
                         );
                       }
