@@ -49,7 +49,7 @@ class RaspisanieDay extends StatelessWidget {
       margin: EdgeInsets.only(top: 20, left: 5, right: 5, bottom: 5),
       //padding: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
-        color: selected ? Theme.of(context).primaryColor : Theme.of(context).canvasColor,
+        color: selected ? Theme.of(context).colorScheme.primary : Theme.of(context).appBarTheme.backgroundColor,
         //color: curDate ? myblue : Colors.white,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: 
@@ -57,7 +57,7 @@ class RaspisanieDay extends StatelessWidget {
           date.month == DateTime.now().month &&
           date.year == DateTime.now().year 
           ?
-          Colors.white : Theme.of(context).canvasColor,
+          Colors.white : Theme.of(context).appBarTheme.backgroundColor!,
         )
       ),
       child: Column(
@@ -67,9 +67,9 @@ class RaspisanieDay extends StatelessWidget {
             child: Center(
               child: Text(
                 daynumber.toString(),
-                style: TextStyle(
-                  //color: selected ? Colors.white : Colors.black,
-                  fontSize: 18,
+                style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w200,
                 ),
               ),
             )
@@ -78,8 +78,9 @@ class RaspisanieDay extends StatelessWidget {
             child: Center(
               child: Text(
                 dayname,
-                style: TextStyle(
-                  //color: selected ? Colors.white : Colors.black,
+                style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w200,
                 ),
               ),
             )

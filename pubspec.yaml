@@ -51,6 +51,8 @@ dependencies:
   lottie: ^2.2.0
   google_fonts: ^4.0.1
   shimmer: ^2.0.0
+  internet_connection_checker: ^1.0.0+1
+  simple_connection_checker: ^0.2.1
   
 
 dev_dependencies:

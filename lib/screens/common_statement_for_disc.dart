@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:untitled1/PersonalStateMent.dart';
-import 'package:untitled1/itemCommonStatement.dart';
 import 'package:untitled1/mycolors.dart';
 import 'package:untitled1/elemensts/post.dart';
 import 'package:untitled1/main.dart';

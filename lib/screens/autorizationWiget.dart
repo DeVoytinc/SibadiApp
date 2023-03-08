@@ -67,12 +67,12 @@ class AutorisationState extends State<Autorisation>{
   Widget build(BuildContext context) {
     getGroups();
     return Scaffold(
-    backgroundColor: Color.fromARGB(255, 245, 245, 245),
+    backgroundColor: Color.fromARGB(255, 255, 255, 255),
     //backgroundColor: Color.,
     body: Container(
       padding: EdgeInsets.all(0),
       decoration: BoxDecoration(
-        color:  Color.fromARGB(255, 245, 245, 245),
+        //color:  Color.fromARGB(255, 245, 245, 245),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -86,7 +86,7 @@ class AutorisationState extends State<Autorisation>{
                 'lib/images/Exclude.png',
                 alignment: Alignment.bottomCenter,
                 scale: 6,
-                color: Color.fromARGB(255, 60, 116, 213),
+                color: Color.fromARGB(255, 0, 119, 255),
               ),
             ),
           ),
@@ -101,7 +101,7 @@ class AutorisationState extends State<Autorisation>{
                   textStyle: TextStyle(
                     fontSize: 38,
                     // fontWeight: FontWeight.w300,
-                    color:  Color.fromARGB(255, 60, 115, 212),
+                    color:  Color.fromARGB(255, 20, 106, 255),
                   ),
                 ),
               ),
@@ -123,7 +123,7 @@ class AutorisationState extends State<Autorisation>{
                 goToNextPage(context);
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll<Color>(Color.fromARGB(255, 60, 116, 213)),
+                backgroundColor: MaterialStatePropertyAll<Color>(Color.fromARGB(255, 0, 94, 255)),
                 padding: MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.symmetric(vertical: 20)),
                 //elevation: MaterialStatePropertyAll<double>(100),
                 //shape:  MaterialStatePropertyAll<OutlinedBorder>(OutlinedBorder(side: )),
@@ -147,7 +147,7 @@ class AutorisationState extends State<Autorisation>{
               children: [
                 Expanded(child: Divider(
                   thickness: 1,
-                  color: Colors.grey[400],
+                  color:Color.fromARGB(255, 175, 175, 175),
                 ),
                 ),
 
@@ -155,7 +155,7 @@ class AutorisationState extends State<Autorisation>{
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Text('Социальные сети',
                     style: TextStyle(
-                      color: Colors.grey[700],
+                      color: Color.fromARGB(255, 175, 175, 175),
                     ),
                   ),
                 ),

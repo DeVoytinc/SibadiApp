@@ -23,15 +23,16 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
 
   List<CommonStatement> disciplines = <CommonStatement>[];
 
-
+  int semNumber = 1;
 
   getData() async {
-    if (disciplines.isNotEmpty) {
-      return disciplines;
-    }
+    // if (disciplines.isNotEmpty) {
+    //   return disciplines;
+    // }
+    disciplines.clear();
     var client = http.Client();
     final response =
-    await client.get(Uri.parse('https://umu.sibadi.org/Ved/TotalVed.aspx?year=2022-2023&sem=1&id=${zachetkaNumber}'));
+    await client.get(Uri.parse('https://umu.sibadi.org/Ved/TotalVed.aspx?year=2022-2023&sem=${semNumber.toString()}&id=${zachetkaNumber}'));
     
     if (response.statusCode == 200) {
       var document = parse(response.body, encoding:'utf-8');
@@ -39,15 +40,15 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
       //var table2 = document.getElementsByClassName('dxgvDataRow_MaterialCompact dxgvDataRowAlt_MaterialCompact');
       for(int i = 0; i < table.length; i= i + 2){
         String type = windows1251.decode(table[i].parentNode!.parentNode!.nodes.toList()[1].nodes.toList()[0].text!.codeUnits);
-        Color cl = mygreenDark;
+        Color cl = Theme.of(context).colorScheme.tertiary;
         if (type == "Экзамен") {
-          cl = myyellowDark;
+          cl = Theme.of(context).colorScheme.surface;
         }
         if (type == "Курсовая работа") {
-          cl = myredDark;
+          cl = Theme.of(context).colorScheme.scrim;
         }
         if (type == "Курсовой проект") {
-          cl = myredDark;
+          cl = Theme.of(context).colorScheme.scrim;
         }
         disciplines.add(CommonStatement(
           disciplineName: windows1251.decode(table[i].text.codeUnits), 
@@ -95,15 +96,15 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
       //backgroundColor: mybackground,
       body: Container(
         //margin: EdgeInsets.only(top: 20),
-        child: TabBarView(
-          controller: _tabController,
-          children: [
-        FutureBuilder(
+        // child: TabBarView(
+        //   controller: _tabController,
+        //   children: [
+        child: FutureBuilder(
           future: getData(),
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData){
               return Center(
-                child: Text("loading"),
+                child: CircularProgressIndicator(),
                 );
             }
             else {
@@ -118,17 +119,21 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                           margin: EdgeInsets.all(10),
                           child: GestureDetector(
                             onTap: (() => goToNextPage(context, disciplines[index])),
+                            
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10), 
-                                color: Color.fromARGB(255, 196, 196, 196),
+                                color: Color.fromARGB(255, 180, 180, 180),
                                 //color: disciplines[index].color,
                                 ),
                               child: Container(
                                 margin: EdgeInsets.only(left: 5),
                                 child: Container(
                                                   
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color:Color.fromARGB(255, 18, 21, 27),),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10), 
+                                    color: Theme.of(context).canvasColor,
+                                  ),
                                   child: IntrinsicHeight(
                                     child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +146,7 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                                               disciplines[index].disciplineName,
                                               style: TextStyle(
                                                 fontSize: 18,
-                                                color: Color.fromARGB(255, 196, 196, 196),
+                                                //color: Color.fromARGB(255, 196, 196, 196),
                                               )
                                               ),
                                                             
@@ -182,62 +187,52 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                   }
                   ),
               );
-
             }
             }
           ),
-          // ListView(
-          //   children: [
-          //     ItemCommonStatement('asfd'),
-          //     ItemCommonStatement('asfd'),
-          //     ItemCommonStatement('asfd'),
-          //     ItemCommonStatement('asfd'),
-          //     ItemCommonStatement('asfd'),
-          //     ItemCommonStatement('asfd'),
-          //     ItemCommonStatement('asfd'),
-          //     ItemCommonStatement('asfd'),
-          //     ItemCommonStatement('asfd'),
-          //   ],
-          // ),
-          ListView(
-            children: [
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-            ],
-          ),
-          ListView(
-            children: [
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-            ],
-          )
-      ],),
+      //     ListView(
+      //       children: [
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //       ],
+      //     ),
+      //     ListView(
+      //       children: [
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //         PersonalStatementItem(),
+      //       ],
+      //     )
+      // ],
+     // ),
       ),
       
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 18, 21, 27),
-        title: Padding(
-          padding: const EdgeInsets.only(top: 18.0),
-          child: Center(
-            child: Text(
+        //backgroundColor: Color.fromARGB(255, 18, 21, 27),
+        title: 
+        // Padding(
+        //   padding: const EdgeInsets.only(top: 18.0),
+        //   child: 
+         Center(
+             child: 
+            Text(
               'Ведомость',
               // style: TextStyle(
               //   //color: myblue,
@@ -245,50 +240,79 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
               //   fontWeight: FontWeight.bold,
               //   ),
             ),
-          ),
-        ),
+           ),
+        // ),
+        // actions: [
+        //   TextButton(
+        //     onPressed: (){
+        //       setState(() {
+        //         semNumber = semNumber == 1 ? 2 : 1;
+        //       });
+        //     }, 
+        //     child: Text(semNumber == 1 ? '1' : '2')
+        //   ),
+        // ],
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
+          preferredSize: Size.fromHeight(kToolbarHeight - 10),
           child: Container(
-          color: Color.fromARGB(255, 18, 21, 27),
-          child: TabBar(
-            //labelColor: Colors.white,
-            indicatorColor: myblue,
-            controller: _tabController,
-            // ignore: prefer_const_literals_to_create_immutables
-            tabs: <Widget>[
-              // ignore: prefer_const_constructors
-              Tab(
-                child: const Text(
-                  'Общая',
-                  textScaleFactor: 1.3,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 196, 196, 196),
-                  ),
-                ),
-              ),
-              // ignore: prefer_const_constructors
-              Tab(
-                child:const Text(
-                  'Личная',
-                  textScaleFactor: 1.3,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 196, 196, 196),
-                  ),
-                ),
-              ),
-              // ignore: prefer_const_constructors
-              Tab(
-                child:const Text(
-                  'Зачетка',
-                  textScaleFactor: 1.3,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 196, 196, 196),
-                  ),
-                ),
-              ),
-            ],
+          //color: Color.fromARGB(255, 18, 21, 27),
+          child: DropdownButton<String>(
+            iconEnabledColor: Colors.white,
+            
+            dropdownColor: Theme.of(context).appBarTheme.backgroundColor,
+            value: semNumber == 1 ? 'Осень' : 'Весна',
+            items: <String>['Весна', 'Осень'].map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value, style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+                  fontSize: 20
+                ),),
+              );
+            }).toList(),
+            onChanged: (_sem) {
+              setState(() {
+                semNumber = _sem == 'Осень' ? 1 : 2;
+              });
+            },
           ),
+          // child: TabBar(
+          //   //labelColor: Colors.white,
+          //   indicatorColor: myblue,
+          //   controller: _tabController,
+          //   // ignore: prefer_const_literals_to_create_immutables
+          //   tabs: <Widget>[
+          //     // ignore: prefer_const_constructors
+          //     Tab(
+          //       child: const Text(
+          //         'Общая',
+          //         textScaleFactor: 1.3,
+          //         style: TextStyle(
+          //           color: Color.fromARGB(255, 196, 196, 196),
+          //         ),
+          //       ),
+          //     ),
+          //     // ignore: prefer_const_constructors
+          //     Tab(
+          //       child:const Text(
+          //         'Личная',
+          //         textScaleFactor: 1.3,
+          //         style: TextStyle(
+          //           color: Color.fromARGB(255, 196, 196, 196),
+          //         ),
+          //       ),
+          //     ),
+          //     // ignore: prefer_const_constructors
+          //     Tab(
+          //       child:const Text(
+          //         'Зачетка',
+          //         textScaleFactor: 1.3,
+          //         style: TextStyle(
+          //           color: Color.fromARGB(255, 196, 196, 196),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
           )
         ),
       ),

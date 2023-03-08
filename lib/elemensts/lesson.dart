@@ -6,7 +6,7 @@ import '../mycolors.dart';
 class Lesson {
 
   late String disciplineName;
-  String customName = '';
+  //String customName = '';
   late String lessonType;
   late String startTime;
   late String finishTime;
@@ -49,6 +49,19 @@ class Lesson {
     date = json['дата'];
     disciplineName = disciplineName.substring(4);
   }
+
+  Map<String, dynamic> toJson() => {
+        'дисциплина': disciplineName,
+        'тип занятия': lessonType,
+        'начало': startTime,
+        'конец': finishTime,
+        'преподаватель': teacherName,
+        'аудитория': auditory,
+        'деньНедели': daynumber,
+        'номерЗанятия': lessonNumber,
+        'дата': date,
+        
+  };
 
   @override
   String toString() {

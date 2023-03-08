@@ -35,6 +35,21 @@ main() async {
   runApp(isautorizesd ? MyApp() : MaterialApp(home: Autorisation()));
 }
 
+void clearSharedPrefrences() async{
+  var prefs = await SharedPreferences.getInstance();
+  prefs.clear();
+}
+
+Future setRaspisanie() async{
+  var prefs = await SharedPreferences.getInstance();
+  prefs.setString('raspis', jsonEncode(raspisjson));
+}
+
+Future getRaspisanie() async{
+  var prefs = await SharedPreferences.getInstance();
+  raspisjson = prefs.getString('raspis');
+}
+
 Future setSelectedGroup() async{
   var prefs = await SharedPreferences.getInstance();
   prefs.setString('group', jsonEncode(selectedGroup.toJson()));
@@ -73,11 +88,37 @@ class ThemeProvider extends ChangeNotifier {
 // light Theme
 ThemeData lightThemeData(BuildContext context) {
   return ThemeData.light().copyWith(
-      primaryColor: Color(0xFF5B4B49),
-      colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Color(0xFF24A751)),
-      scaffoldBackgroundColor: mygrey,
-      bottomAppBarColor: Color.fromARGB(255, 255, 255, 255),
+      primaryColor: Color.fromARGB(255, 52, 65, 255),
+      //colorScheme: ColorScheme.fromSwatch().copyWith(primary: Color.fromARGB(255, 108, 189, 255)),
+      
+      colorScheme: ColorScheme.fromSwatch().copyWith(
+        primary: Color.fromARGB(255, 108, 189, 255),
+        background: myyellow,
+        secondary: myviolet,
+        tertiary: mygreen,
+        scrim: myred,
+        surface: myorange,
+      ),
+      scaffoldBackgroundColor: Color.fromARGB(255, 235, 235, 235),
+      //bottomAppBarColor: Color.fromARGB(255, 255, 255, 255),
       canvasColor: Colors.white,
+      
+      appBarTheme: AppBarTheme(
+      backgroundColor: Colors.blue,
+      titleTextStyle: GoogleFonts.alumniSans(
+        textStyle: TextStyle(
+          fontSize: 40,
+          // fontWeight: FontWeight.w300,
+          color:  Color.fromARGB(255, 255, 255, 255),
+        ),
+      ),
+      //color: Color.fromARGB(255, 18, 21, 27),
+    ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: Colors.blue,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white60,
+      )
       );
       
 }
@@ -87,21 +128,26 @@ ThemeData darkThemeData(BuildContext context) {
   return ThemeData.dark().copyWith(
     primaryColor: Color.fromARGB(255, 52, 65, 255),
     colorScheme: ColorScheme.fromSwatch().copyWith(
-      secondary: Color(0xFF24A751),
-      background: Color.fromARGB(255, 33, 38, 49),
-      ),
+      primary: Color.fromARGB(255, 52, 65, 255),
+      background: myyellowDark,
+      secondary: myvioletDark,
+      tertiary: mygreenDark,
+      scrim: myredDark,
+      surface: myorangeDark
+    ),
     cardColor: Color.fromARGB(255, 18, 21, 27),
     scaffoldBackgroundColor: Color.fromARGB(255, 23, 30, 46),
     drawerTheme: DrawerThemeData(backgroundColor: Color.fromARGB(255, 18, 21, 27)),
     canvasColor: Color.fromARGB(255, 18, 21, 27),
     
+    
     appBarTheme: AppBarTheme(
       //titleTextStyle: TextStyle(color:Color.fromARGB(255, 0, 106, 25)),
-      titleTextStyle: GoogleFonts.alumniSans(
+      titleTextStyle: GoogleFonts.robotoMono(
         textStyle: TextStyle(
-          fontSize: 40,
-          // fontWeight: FontWeight.w300,
-          color:  Color.fromARGB(255, 0, 94, 255),
+          fontSize: 30,
+          fontWeight: FontWeight.w400,
+          color:  Color.fromARGB(255, 255, 255, 255),
         ),
       ),
       color: Color.fromARGB(255, 18, 21, 27),
@@ -142,7 +188,7 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   String title = 'Главная';
   static List<String> titles = <String>['Главная', 'Расписание', 'Ведомость', 'Карта', 'Мероприятия'];
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   void _onItemTapped(int index){
     setState(() {
@@ -190,48 +236,51 @@ class _MyHomePageState extends State<MyHomePage>
       bottomNavigationBar: new Theme(
         data: dartMode ? lightThemeData(context) : darkThemeData(context), 
         child: BottomNavigationBar(
-        //backgroundColor: Color.fromARGB(255, 58, 80, 75),
+        //backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
-        showUnselectedLabels: false,
+        //showUnselectedLabels: false,
+        selectedItemColor: Colors.white,
         onTap: _onItemTapped,
+        selectedLabelStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+          fontSize: 13,
+        ),
+        unselectedLabelStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+          fontSize: 13,
+        ),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined, 
-            //color: Colors.grey,
+            icon: Icon(
+              Icons.home_outlined, 
             ),
             label: "Главная",
-            //backgroundColor: Colors.black,
-            //backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.access_time, 
-            //color: Colors.grey,
+            icon: Icon(
+              Icons.access_time, 
             ),
             label: "Расписание",
-            //backgroundColor: Colors.white
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book_outlined, 
-            //color: Colors.grey,
+            icon: Icon(
+              Icons.book_outlined, 
             ),
             label: "Ведомость",
-            //backgroundColor: Colors.white
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map_outlined, 
-            //color: Colors.grey,
-            ),
-            label: "Карта",
-            //backgroundColor: Colors.white
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today_outlined, 
-            //color: Colors.grey,
-            ),
-            label: "Мероприятия",
-            //backgroundColor: Colors.white
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.map_outlined, 
+          //   //color: Colors.grey,
+          //   ),
+          //   label: "Карта",
+          //   //backgroundColor: Colors.white
+          // ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.calendar_today_outlined, 
+          //   //color: Colors.grey,
+          //   ),
+          //   label: "Мероприятия",
+          //   //backgroundColor: Colors.white
+          // ),
         ]
       ),
       )

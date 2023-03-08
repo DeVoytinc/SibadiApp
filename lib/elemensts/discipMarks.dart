@@ -7,13 +7,18 @@ class DiscipStatementData {
     required this.marksKT1,
     required this.marksKT2,
     required this.result,
+    required this.teacherName,
+    required this.discType,
   });
 
   final String number;
   final String zachetka;
-  final KontrolPoint marksKT1;
-  final KontrolPoint marksKT2;
+  final KontrolPoint? marksKT1;
+  final KontrolPoint? marksKT2;
   final String result;
+  final String teacherName;
+  final String discType;
+
 }
 
 class KontrolPoint{

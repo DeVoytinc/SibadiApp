@@ -1,15 +1,22 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../elemensts/raspisanieDay.dart';
-import '../mycolors.dart';
+import '../main.dart';
 import '../screens/choose_group.dart';
 import '../elemensts/timetableElement.dart';
 import '../elemensts/lesson.dart';
 
+import 'dart:io';
+
 
 String groupLink = selectedGroup.link;
+String? raspisjson = '';
+bool isConnected = false;
+bool newrasp = false;
 
 class TimeTable extends StatefulWidget{
   TimeTable({Key? key}) : super(key: key);
@@ -36,7 +43,7 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
   PageController daysController = PageController(viewportFraction: 1, initialPage: 13);
   PageController raspController = PageController(
     viewportFraction: 1, 
-    initialPage: ((26 * 7) / 2).round() + DateTime.now().weekday);
+    initialPage: ((26 * 7) / 2).round() + DateTime.now().weekday -8);
   int daypageindex = 13;
   int previousRaspIndex = 0;
   int listpageindex = 0;
@@ -44,29 +51,71 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
   bool userinputcalendar = true;
 
   getData() async {
+
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        isConnected = true;
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+      isConnected = false;
+    }
+
     selectedIndex = indexesWithDate.indexOf(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day));
     raspController = PageController(viewportFraction: 1, initialPage: selectedIndex);
     previousRaspIndex = selectedIndex;
     raspisanie.clear();
-    String groupnumber = groupLink.replaceAll('?group=', '');
-    Uri uri = Uri.parse('https://umu.sibadi.org/api/Rasp?idGroup=${groupnumber}');
-    final response =
-    await http.Client().get(uri);
-    if (response.statusCode == 200) {
-      final jsonmap = jsonDecode(response.body);
+    if( (!isConnected && !raspisjson!.isEmpty) || newrasp == true){
+      final jsonmap = jsonDecode(raspisjson!);
       var rasplist = jsonmap['data']['rasp'];
       //var firstIndex = Lesson.fromJson(rasplist).
       for (int i = 0; i < rasplist.length; i++){
         raspisanie.add(Lesson.fromJson(rasplist[i]));
       }
-
       var firstIndexForRasp = raspisanie.indexOf(raspisanie.firstWhere((element) => DateTime.parse(element.date).isAfter(threeMonthAgo)));
-      
-
       for (int j = firstIndexForRasp; j < raspisanie.length; j++){
           raspPerDate[DateTime.parse(raspisanie[j].date)] = raspisanie.where((element) => 
           element.date == raspisanie[j].date).toList();
       }
+      return raspPerDate;
+    }
+    if (isConnected){
+      String groupnumber = groupLink.replaceAll('?group=', '');
+      Uri uri = Uri.parse('https://umu.sibadi.org/api/Rasp?idGroup=${groupnumber}');
+      final response =
+      await http.Client().get(uri);
+      if (response.statusCode == 200) {
+        newrasp = true;
+        raspisjson = response.body;
+        setRaspisanie();
+        final jsonmap = jsonDecode(response.body);
+        var rasplist = jsonmap['data']['rasp'];
+        //var firstIndex = Lesson.fromJson(rasplist).
+        for (int i = 0; i < rasplist.length; i++){
+          raspisanie.add(Lesson.fromJson(rasplist[i]));
+        }
+        var firstIndexForRasp = raspisanie.indexOf(raspisanie.firstWhere((element) => DateTime.parse(element.date).isAfter(threeMonthAgo)));
+        for (int j = firstIndexForRasp; j < raspisanie.length; j++){
+            raspPerDate[DateTime.parse(raspisanie[j].date)] = raspisanie.where((element) => 
+            element.date == raspisanie[j].date).toList();
+        }
+      }
+      else{
+        final jsonmap = jsonDecode(raspisjson!);
+        var rasplist = jsonmap['data']['rasp'];
+        //var firstIndex = Lesson.fromJson(rasplist).
+        for (int i = 0; i < rasplist.length; i++){
+          raspisanie.add(Lesson.fromJson(rasplist[i]));
+        }
+        var firstIndexForRasp = raspisanie.indexOf(raspisanie.firstWhere((element) => DateTime.parse(element.date).isAfter(threeMonthAgo)));
+        for (int j = firstIndexForRasp; j < raspisanie.length; j++){
+            raspPerDate[DateTime.parse(raspisanie[j].date)] = raspisanie.where((element) => 
+            element.date == raspisanie[j].date).toList();
+        }
+      }
+
     }
     return raspPerDate;
   }
@@ -112,7 +161,7 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
     return Container(
       height: 80,
       width: double.infinity,
-      color: Theme.of(context).canvasColor,
+      color: Theme.of(context).appBarTheme.backgroundColor,
       child: PageView.builder(
         scrollDirection: Axis.horizontal,
         controller: daysController,
@@ -192,8 +241,8 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    raspPerDate[date]![listindex].customName != '' ? 
-                                    raspPerDate[date]![listindex].customName :
+                                    // raspPerDate[date]![listindex].customName != '' ? 
+                                    // raspPerDate[date]![listindex].customName :
                                     raspPerDate[date]![listindex].disciplineName,
                                     style: TextStyle(
                                       fontSize: 18,
@@ -259,16 +308,7 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
               builder: (context, AsyncSnapshot snapshot) {
                 if (!snapshot.hasData){
                   return Expanded(
-                    child: PageView.builder(
-                      scrollDirection: Axis.horizontal,
-                      //controller: raspController,
-                      onPageChanged:(value)  {
-                        _changeSelectedIndex(value);
-                        //print(indexesWithDate[value]);
-                      },
-                      itemCount: 26*7, 
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
+                    child: Container(
                           child: Column(
                             children: [
                               Shimmer.fromColors(
@@ -414,9 +454,7 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
                               ),
                             ]
                           ),
-                        );
-                      }
-                    ),
+                        ),
                   );
                 }
                 else {
@@ -439,51 +477,52 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
                         _changeSelectedIndex(value);
                         previousRaspIndex = value;
                         },
-                      physics: BouncingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics(),
-                      ),
+                      // physics: BouncingScrollPhysics(
+                      //   parent: AlwaysScrollableScrollPhysics(),
+                      // ),
                       itemCount: 26*7, 
                       itemBuilder: (BuildContext context, int index) {
                         //print(indexesWithDate[index]);
                         var date = indexesWithDate[index];
-                        if (!raspPerDate.containsKey(date)) {
-      return Container(); 
-    }
-    List<Lesson>? lesson = raspPerDate[date];
-    return Container(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: raspPerDate[date]?.length,
-        itemBuilder: (BuildContext context, int listindex){
-          Widget timeElement;
-          if (listindex == 0 || (listindex > 0 && raspPerDate[date]?[listindex -1].startTime 
-          != raspPerDate[date]![listindex].startTime)){
-            timeElement = TimetableTimeElement(
-              timeLesson: raspPerDate[date]![listindex].startTime + ' - ' + raspPerDate[date]![listindex].finishTime,
-              lessonNumber: raspPerDate[date]![listindex].lessonNumber,
-              color: raspPerDate[date]![listindex].color,
-            );
-          } else {
-            timeElement = Container();
-          }
-          return Column(
-            children: [
-              timeElement,
-              Container(
-                margin: EdgeInsets.only(top: 12),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(left: 12),
-                        child: Container(
-                          margin: EdgeInsets.only(right: 12),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12), 
-                            //color: Theme.of(context).canvasColor,
-                            color: raspPerDate[date]![listindex].color,
+                        List<Lesson>? lesson = raspPerDate[date];
+                        if (!raspPerDate.containsKey(date)){
+                          return Center(
+                            child: Column(
+                              children: [
+                                Expanded(child: Container()),
+                                Lottie.network(
+                                  'https://assets4.lottiefiles.com/packages/lf20_uk2qyv3i.json',
+                                  height: 300,
+                                ),
+                                Text('Пар нет, отдыхай!'),
+                                Expanded(child: Container()),
+                              ],
+                            ));
+                        }
+                        return Container(
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: raspPerDate[date]?.length,
+                            itemBuilder: (BuildContext context, int listindex){
+                              
+                              Widget timeElement;
+                              if (listindex == 0 || (listindex > 0 && raspPerDate[date]?[listindex -1].startTime 
+                              != raspPerDate[date]![listindex].startTime)){
+                                timeElement = TimetableTimeElement(
+                                  timeLesson: raspPerDate[date]![listindex].startTime + ' - ' + raspPerDate[date]![listindex].finishTime,
+                                  lessonNumber: raspPerDate[date]![listindex].lessonNumber,
+                                  color: raspPerDate[date]![listindex].color,
+                                );
+                              } else {
+                                timeElement = Container();
+                              }
+                              return Column(
+                                children: [
+                                  timeElement,
+                                  TimeTableLessonElement(date, listindex),
+                                ]
+                              );
+                            }
                           ),
                         );
                       }
@@ -497,9 +536,6 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
       ),
       appBar: AppBar(
         elevation: 0,
-        // leading: IconButton(
-        //   onPressed: () {},
-        //   icon: Icon(
         //     Icons.settings,
         //     size: 35,
         //     color: myblue,
@@ -523,5 +559,4 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
       ),
     );
   }
-
 }

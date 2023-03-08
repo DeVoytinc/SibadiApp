@@ -164,7 +164,7 @@ class TimetableTimeElement extends StatelessWidget{
             ),
             child: Center(child: Text(
               lessonNumber.toString(),
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18, color: Colors.white),
               )),
           ),
           SizedBox(width: 10,),
@@ -187,7 +187,7 @@ class TimetableTimeElement extends StatelessWidget{
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
                   timeLesson,
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
             ),

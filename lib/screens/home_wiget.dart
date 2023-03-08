@@ -4,6 +4,8 @@ import 'package:untitled1/main.dart';
 import 'package:untitled1/mycolors.dart';
 import 'package:untitled1/elemensts/post.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled1/screens/choose_group.dart';
+import 'package:untitled1/screens/choose_zachetkanumber.dart';
 
 ValueNotifier<ThemeMode> _notifier = ValueNotifier(ThemeMode.light);
 
@@ -50,26 +52,29 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                     width: 70,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: mygreen,
+                      color: mygreenDark,
                     ),
-                    child: Center(child: Text(
-                      '5',
-                      style: TextStyle(
-                        fontSize: 40,
-                        color: Colors.white,
-                      ),
-                      )),
+                    child: Center(
+                      child: Icon(Icons.person, size: 35,),
+                      // child: Text(
+                      //   '5',
+                      //   style: TextStyle(
+                      //     fontSize: 40,
+                      //     color: Colors.white,
+                      //   ),
+                      // )
+                    ),
                   ),
                   SizedBox(height: 10,),
                   Text(
-                    'pib-21-05',
+                    selectedGroup.name,
                     style: TextStyle(
                       fontSize: 30
                       ),
                     ),
                     SizedBox(height: 5,),
                   Text(
-                    'ПИБ-21Э1',
+                    selectedZachetka.name,
                     style: TextStyle(
                       fontSize: 17,
                       color: Colors.grey.shade700,
@@ -81,28 +86,40 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                     child: Divider(),
                   ),
                   //SizedBox(height: 20,),
-                  Container(
-                    child: Row(children: [
-                      Icon(Icons.settings),
-                      Text('Настройки')
-                    ]),
-                  ),
+                  // Container(
+                  //   child: Row(children: [
+                  //     Icon(Icons.settings),
+                  //     Text('Настройки')
+                  //   ]),
+                  // ),
                   Expanded(child: Container(),),
                   Padding(
                     padding: const EdgeInsets.only(right: 20.0),
                     child: Divider(),
                   ), 
-                  Container(child: Row(children: [
-                    Expanded(child: Container(),),
-                    IconButton(
-                      isSelected: dartMode,
-                      onPressed: () {
-                        final provider = Provider.of<ThemeProvider>(context, listen: false);
-                        provider.toggleTheme(dartMode);
-                        setState(() {
-                          dartMode = !dartMode;
-                        });
-                    }, icon: Icon(_chandeLightMode()))
+                  Container(child: Row(
+                    children: [
+                    Container(
+                      child: TextButton(
+                      onPressed: () { clearSharedPrefrences(); main(); },
+                      child: Text(
+                        'Выйти',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 16,
+                        ),
+                      ), 
+                      ),),
+                      Expanded(child: Container()),
+                    // IconButton(
+                    //   isSelected: dartMode,
+                    //   onPressed: () {
+                    //     final provider = Provider.of<ThemeProvider>(context, listen: false);
+                    //     provider.toggleTheme(dartMode);
+                    //     setState(() {
+                    //       dartMode = !dartMode;
+                    //     });
+                    // }, icon: Icon(_chandeLightMode()))
                   ],))
                 ]
               ),
@@ -112,47 +129,51 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
         body: TabBarView(
           controller: _tabController,
           children: [
-            ListView(
-              children: [
-                Post(),
-                Post(),
-                Post(),
-                Post(),
-                Post(),
-                Post(),
-              ],
-            ),
-            ListView(
-              children: [
-                Post(),
-                Post(),
-                Post(),
-                Post(),
-                Post(),
-                Post(),
-              ],
-            ),
-            ListView(
-              children: [
-                Post(),
-                Post(),
-                Post(),
-                Post(),
-                Post(),
-                Post(),
-              ],
-            )
-        ],),
+            Center(child: Text('В разработке')),
+            Center(child: Text('В разработке')),
+            Center(child: Text('В разработке')),
+            // ListView(
+            //   children: [
+            //     Post(),
+            //     Post(),
+            //     Post(),
+            //     Post(),
+            //     Post(),
+            //     Post(),
+            //   ],
+            // ),
+            // ListView(
+            //   children: [
+            //     Post(),
+            //     Post(),
+            //     Post(),
+            //     Post(),
+            //     Post(),
+            //     Post(),
+            //   ],
+            // ),
+            // ListView(
+            //   children: [
+            //     Post(),
+            //     Post(),
+            //     Post(),
+            //     Post(),
+            //     Post(),
+            //     Post(),
+            //   ],
+            // ),
+          ],
+        ),
         appBar: AppBar(
           //backgroundColor: MediaQuery.of(context.),
           title: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
+            padding: const EdgeInsets.only(top: 10.0, right: 50),
             child: Center(
               child: Text(
                 'С И Б А Д И',
                 style: TextStyle(
-                  color: myblue,
-                  fontWeight: FontWeight.bold,
+                  //color: myblue,
+                  //fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -161,7 +182,10 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
             onPressed: () async {
               scaffoldKey.currentState!.openDrawer();
             },
-            icon: Icon(Icons.menu, color: myblue,),
+            icon: Icon(
+              Icons.menu, 
+              //color: myblue,
+              ),
     
           ),
           bottom: PreferredSize(
@@ -171,36 +195,30 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
             child: TabBar(
               indicatorColor: myblue,
               controller: _tabController,
-              // ignore: prefer_const_literals_to_create_immutables
               tabs: <Widget>[
-                // ignore: prefer_const_constructors
                 Tab(
-                  child: const Text(
+                  child: Text(
                     'Новости',
-                    style: TextStyle(
-                      //color: Color.fromARGB(255, 95, 95, 95),
+                    style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+                      fontSize: 20,
                     ),
-                    textScaleFactor: 1.3,
+                    //textScaleFactor: 1.3,
                   ),
                 ),
-                // ignore: prefer_const_constructors
                 Tab(
-                  child: const Text(
+                  child: Text(
                     'Для вас',
-                    style: TextStyle(
-                     //color: Color.fromARGB(255, 95, 95, 95),
+                    style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+                      fontSize: 20,
                     ),
-                    textScaleFactor: 1.3,
                   ),
                 ),
-                // ignore: prefer_const_constructors
                 Tab(
-                  child: const Text(
+                  child: Text(
                     'Профком',
-                    style: TextStyle(
-                      //color: Color.fromARGB(255, 95, 95, 95),
+                    style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+                      fontSize: 20,
                     ),
-                    textScaleFactor: 1.3,
                   ),
                 ),
               ],

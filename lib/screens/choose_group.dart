@@ -41,7 +41,7 @@ class _ChooseGroupState extends State<ChooseGroup> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 241, 241, 241),
+      //backgroundColor: Color.fromARGB(255, 241, 241, 241),
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 60, 116, 213),
           // The search area here
@@ -90,7 +90,7 @@ class _ChooseGroupState extends State<ChooseGroup> with SingleTickerProviderStat
           Expanded(
             child: Container(
               child: FutureBuilder(
-                future: getGroups(),
+                future: groups.isEmpty ? getGroups() : null,
                 builder: (context, snapshot) {
                   return ListView.builder(
                     controller: ScrollController(),
