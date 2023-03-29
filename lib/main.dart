@@ -40,14 +40,14 @@ void clearSharedPrefrences() async{
   prefs.clear();
 }
 
-Future setRaspisanie() async{
+Future setRaspisanie(String r) async{
   var prefs = await SharedPreferences.getInstance();
-  prefs.setString('raspis', jsonEncode(raspisjson));
+  prefs.setString('raspis', r);
 }
 
-Future getRaspisanie() async{
+Future<String?> getRaspisanie() async{
   var prefs = await SharedPreferences.getInstance();
-  raspisjson = prefs.getString('raspis');
+  return prefs.getString('raspis');
 }
 
 Future setSelectedGroup() async{
@@ -143,13 +143,7 @@ ThemeData darkThemeData(BuildContext context) {
     
     appBarTheme: AppBarTheme(
       //titleTextStyle: TextStyle(color:Color.fromARGB(255, 0, 106, 25)),
-      titleTextStyle: GoogleFonts.robotoMono(
-        textStyle: TextStyle(
-          fontSize: 30,
-          fontWeight: FontWeight.w400,
-          color:  Color.fromARGB(255, 255, 255, 255),
-        ),
-      ),
+      titleTextStyle: TextStyle(fontSize: 30, fontWeight:FontWeight.w300),
       color: Color.fromARGB(255, 18, 21, 27),
     ),
   );
@@ -251,9 +245,9 @@ class _MyHomePageState extends State<MyHomePage>
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.home_outlined, 
+              Icons.map_outlined, 
             ),
-            label: "Главная",
+            label: "Карта",
           ),
           BottomNavigationBarItem(
             icon: Icon(

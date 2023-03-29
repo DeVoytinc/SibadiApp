@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:untitled1/main.dart';
 //import 'package:untitled1/elemensts/drawer.dart';
 import 'package:untitled1/mycolors.dart';
-import 'package:untitled1/elemensts/post.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled1/screens/choose_group.dart';
 import 'package:untitled1/screens/choose_zachetkanumber.dart';
+import 'package:http/http.dart' as http;
+import 'package:windows1251/windows1251.dart';
+import 'package:html/parser.dart';
 
 ValueNotifier<ThemeMode> _notifier = ValueNotifier(ThemeMode.light);
 
@@ -19,6 +22,26 @@ class TopTabBar extends StatefulWidget{
 class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMixin{
   late TabController _tabController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+
+  getData() async {
+    // if (disciplines.isNotEmpty) {
+    //   return disciplines;
+    // }
+    disciplines.clear();
+    var client = http.Client();
+    final response =
+    await client.get(Uri.parse('https://vk.com/wall-154434845?own=1'));
+    
+    if (response.statusCode == 200) {
+      var document = parse(response.body, encoding:'utf-8');
+      var table = document.getElementsByClassName('_post_content');
+      
+      //disciplines.add('хуй');
+      return disciplines;
+    }
+    return disciplines;
+  }
 
   @override
   void initState() {
@@ -126,51 +149,23 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
             ),
           ),
         ),
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            Center(child: Text('В разработке')),
-            Center(child: Text('В разработке')),
-            Center(child: Text('В разработке')),
-            // ListView(
-            //   children: [
-            //     Post(),
-            //     Post(),
-            //     Post(),
-            //     Post(),
-            //     Post(),
-            //     Post(),
-            //   ],
-            // ),
-            // ListView(
-            //   children: [
-            //     Post(),
-            //     Post(),
-            //     Post(),
-            //     Post(),
-            //     Post(),
-            //     Post(),
-            //   ],
-            // ),
-            // ListView(
-            //   children: [
-            //     Post(),
-            //     Post(),
-            //     Post(),
-            //     Post(),
-            //     Post(),
-            //     Post(),
-            //   ],
-            // ),
-          ],
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Lottie.network('https://assets8.lottiefiles.com/packages/lf20_dsxct2el.json', height: 300),
+              const Text('В разработке', style: TextStyle(fontSize: 17),),
+            ]
+          ),
         ),
         appBar: AppBar(
           //backgroundColor: MediaQuery.of(context.),
           title: Padding(
-            padding: const EdgeInsets.only(top: 10.0, right: 50),
+            padding: const EdgeInsets.only(top: 0.0, right: 50),
             child: Center(
               child: Text(
-                'С И Б А Д И',
+                'Карта',
                 style: TextStyle(
                   //color: myblue,
                   //fontWeight: FontWeight.bold,
@@ -188,43 +183,43 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
               ),
     
           ),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(kToolbarHeight),
-            child: Container(
+          // bottom: PreferredSize(
+          //   preferredSize: Size.fromHeight(kToolbarHeight),
+          //   child: Container(
             //color: Colors.white,
-            child: TabBar(
-              indicatorColor: myblue,
-              controller: _tabController,
-              tabs: <Widget>[
-                Tab(
-                  child: Text(
-                    'Новости',
-                    style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
-                      fontSize: 20,
-                    ),
-                    //textScaleFactor: 1.3,
-                  ),
-                ),
-                Tab(
-                  child: Text(
-                    'Для вас',
-                    style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                Tab(
-                  child: Text(
-                    'Профком',
-                    style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            )
-          ),
+            // child: TabBar(
+            //   indicatorColor: myblue,
+            //   controller: _tabController,
+            //   tabs: <Widget>[
+            //     Tab(
+            //       child: Text(
+            //         'Новости',
+            //         style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+            //           fontSize: 20,
+            //         ),
+            //         //textScaleFactor: 1.3,
+            //       ),
+            //     ),
+            //     Tab(
+            //       child: Text(
+            //         'Для вас',
+            //         style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+            //           fontSize: 20,
+            //         ),
+            //       ),
+            //     ),
+            //     Tab(
+            //       child: Text(
+            //         'Профком',
+            //         style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+            //           fontSize: 20,
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            //)
+          //),
         ),
     );
   }

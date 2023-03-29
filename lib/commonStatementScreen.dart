@@ -36,13 +36,13 @@ getData() async {
       var markstable = document.getElementById('ctl00_MainContent_ucVedBox_TableVed_DXMainTable');
       discipType = windows1251.decode(document.getElementById('ctl00_MainContent_ucVedBox_lblTypeVed')!.text.codeUnits);
       teacherName = windows1251.decode(document.getElementById('ctl00_MainContent_ucVedBox_lblPrep')!.text.codeUnits);
-      int itemcount = zachetkatable!.nodes[1].nodes.length-2;
+      int itemcount = zachetkatable!.nodes[1].nodes.length;
       asdf = List.generate(itemcount, (index) => false);
       if (discipType == 'Курсовой проект' || discipType == 'Курсовая работа'){
         setState(() {
           isKursash = true;
         });
-        for(int i = 1; i < zachetkatable.nodes[1].nodes.length-8; i++){
+        for(int i = 1; i < zachetkatable.nodes[1].nodes.length-1; i++){
           discipdata.add(DiscipStatementData(
             number: zachetkatable.nodes[1].nodes[i].nodes[1].text ?? '', 
             zachetka: windows1251.decode(zachetkatable.nodes[1].nodes[i].nodes[2].text!.codeUnits), 
@@ -55,7 +55,7 @@ getData() async {
         }
       }
       else{
-        for(int i = 1; i < zachetkatable.nodes[1].nodes.length-8; i++){
+        for(int i = 1; i < zachetkatable.nodes[1].nodes.length-1; i++){
           KontrolPoint kt1 = KontrolPoint(
             lection: markstable!.nodes[1].nodes[i+2].nodes[1].text.toString(), 
             practic: markstable.nodes[1].nodes[i+2].nodes[2].text.toString(), 

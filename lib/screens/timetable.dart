@@ -67,9 +67,12 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
     raspController = PageController(viewportFraction: 1, initialPage: selectedIndex);
     previousRaspIndex = selectedIndex;
     raspisanie.clear();
-    if( (!isConnected && !raspisjson!.isEmpty) || newrasp == true){
+    raspisjson = await getRaspisanie();
+    //raspisjson = raspisjson!.substring(1, raspisjson!.length - 1);
+    if( (!isConnected && raspisjson!.isNotEmpty) || newrasp == true){
       final jsonmap = jsonDecode(raspisjson!);
       var rasplist = jsonmap['data']['rasp'];
+      //dynamic rasplist = jsonmap[0][1];
       //var firstIndex = Lesson.fromJson(rasplist).
       for (int i = 0; i < rasplist.length; i++){
         raspisanie.add(Lesson.fromJson(rasplist[i]));
@@ -89,8 +92,8 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
       if (response.statusCode == 200) {
         newrasp = true;
         raspisjson = response.body;
-        setRaspisanie();
-        final jsonmap = jsonDecode(response.body);
+        setRaspisanie(response.body);
+        final jsonmap = jsonDecode(raspisjson!);
         var rasplist = jsonmap['data']['rasp'];
         //var firstIndex = Lesson.fromJson(rasplist).
         for (int i = 0; i < rasplist.length; i++){
@@ -135,7 +138,19 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   // TODO: implement didChangeAppLifecycleState
+  //   super.didChangeAppLifecycleState(state);
+
+  //   final isBackground = state == AppLifecycleState.paused;
+  //   if (isBackground)
+  // }
 
   Widget RaspisanieDayConstructor(int index){
     
@@ -490,10 +505,11 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
                             child: Column(
                               children: [
                                 Expanded(child: Container()),
+                                isConnected ? 
                                 Lottie.network(
                                   'https://assets4.lottiefiles.com/packages/lf20_uk2qyv3i.json',
                                   height: 300,
-                                ),
+                                ) : Container(),
                                 Text('Пар нет, отдыхай!'),
                                 Expanded(child: Container()),
                               ],

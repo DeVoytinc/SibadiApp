@@ -53,6 +53,7 @@ dependencies:
   shimmer: ^2.0.0
   internet_connection_checker: ^1.0.0+1
   simple_connection_checker: ^0.2.1
+  yandex_mobileads: ^1.1.0
   
 
 dev_dependencies:

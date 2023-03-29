@@ -1,13 +1,5 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:untitled1/mycolors.dart';
-import 'package:flutter/foundation.dart';
-import 'package:untitled1/PersonalStateMent.dart';
-import 'package:untitled1/elemensts/post.dart';
-import 'package:untitled1/main.dart';
-import 'package:http/http.dart' as http;
-import 'package:html/parser.dart';
-import 'package:windows1251/windows1251.dart';
 
 String groupLink = '?group=13226';
 

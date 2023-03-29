@@ -35,7 +35,7 @@ class Lesson {
     else if (disciplineName.startsWith('лаб')){
       lessonType = 'Лабораторная';
       color = dartMode  ? myviolet :  myvioletDark;
-    }
+    } 
     else{
       lessonType = 'Лекция';
       color = dartMode  ? mygreen : mygreenDark;

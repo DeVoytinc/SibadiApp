@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 import 'package:untitled1/screens/choose_group.dart';
 import 'package:untitled1/screens/choose_zachetkanumber.dart';
+import 'package:untitled1/screens/timetable.dart';
 import 'package:windows1251/windows1251.dart';
 
 String groupLink = selectedGroup.link;
@@ -99,7 +100,8 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
         // child: TabBarView(
         //   controller: _tabController,
         //   children: [
-        child: FutureBuilder(
+        
+        child: isConnected ? FutureBuilder(
           future: getData(),
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData){
@@ -189,7 +191,8 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
               );
             }
             }
-          ),
+          ) :
+          Center(child: Container(child: Text("Нет подключения к интернету"),))
       //     ListView(
       //       children: [
       //         PersonalStatementItem(),

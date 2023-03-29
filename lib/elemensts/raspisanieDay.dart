@@ -68,8 +68,8 @@ class RaspisanieDay extends StatelessWidget {
               child: Text(
                 daynumber.toString(),
                 style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w200,
+                  fontSize: 23,
+                  fontWeight: FontWeight.w300,
                 ),
               ),
             )
@@ -79,8 +79,8 @@ class RaspisanieDay extends StatelessWidget {
               child: Text(
                 dayname,
                 style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w200,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w300,
                 ),
               ),
             )
