@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
@@ -37,7 +36,7 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
   DateTime threeMonthBefore = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).add(Duration(days: 13 * 7 + (7 - DateTime.now().weekday)));
   //DateTime selectedDate = DateTime.now();
   DateTime curDate = DateTime.now();
-  int selectedIndex = ((26 * 7) / 2).round() + DateTime.now().weekday -8;
+  int selectedIndex = ((26 * 7) / 2).round() + DateTime.now().weekday-1;
   List indexesWithDate = [];
   List<String> listOfDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   PageController daysController = PageController(viewportFraction: 1, initialPage: 13);
@@ -136,6 +135,7 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
       //getData(selectedDate);
     });
     super.initState();
+    
   }
 
   @override
@@ -303,15 +303,15 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     int count = threeMonthBefore.difference(threeMonthAgo).inDays;
     indexesWithDate = List.generate(count, (index) => threeMonthAgo.add(Duration(days: index)));
-    int tempforCreatingCalendar = 0;
-    Widget cancelButton = TextButton(
-      child: Text("Cancel"),
-      onPressed:  () {Navigator.pop(context, 'Cancel');},
-    );
-    Widget continueButton = TextButton(
-      child: Text("Continue"),
-      onPressed:  () {},
-    );
+    // int tempforCreatingCalendar = 0;
+    // Widget cancelButton = TextButton(
+    //   child: Text("Cancel"),
+    //   onPressed:  () {Navigator.pop(context, 'Cancel');},
+    // );
+    // Widget continueButton = TextButton(
+    //   child: Text("Continue"),
+    //   onPressed:  () {},
+    // );
 
     return Scaffold(
       body: Container(
@@ -499,7 +499,7 @@ class _TimeTableState extends State<TimeTable> with SingleTickerProviderStateMix
                       itemBuilder: (BuildContext context, int index) {
                         //print(indexesWithDate[index]);
                         var date = indexesWithDate[index];
-                        List<Lesson>? lesson = raspPerDate[date];
+                        //List<Lesson>? lesson = raspPerDate[date];
                         if (!raspPerDate.containsKey(date)){
                           return Center(
                             child: Column(

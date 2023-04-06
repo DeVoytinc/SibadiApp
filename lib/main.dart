@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 //import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +22,12 @@ bool dartMode = false;
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Color.fromARGB(255, 30, 30, 30),
+    systemNavigationBarColor: Color.fromARGB(255, 30, 30, 30),
+    //systemNavigationBarColor: Color.fromARGB(255, 0, 85, 255),
+  ));
+
   var savedGroup = await getSelectedGroup();
   var savedZachetka = await getSelectedZachetka();
   if(savedGroup == null || savedZachetka == null) {
@@ -32,7 +38,9 @@ main() async {
     selectedZachetka = savedZachetka;
     isautorizesd = true;
   }
-  runApp(isautorizesd ? MyApp() : MaterialApp(home: Autorisation()));
+  runApp(isautorizesd ? MyApp() : MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: Autorisation()));
 }
 
 void clearSharedPrefrences() async{
@@ -125,27 +133,31 @@ ThemeData lightThemeData(BuildContext context) {
 
 // dark Theme
 ThemeData darkThemeData(BuildContext context) {
+  Color myblue = Color.fromARGB(255, 73, 83, 224);
+  Color mybackground = Color.fromARGB(255, 20, 20, 20);
+  Color secondary = Color.fromARGB(255, 30, 30, 30);
+
   return ThemeData.dark().copyWith(
-    primaryColor: Color.fromARGB(255, 52, 65, 255),
+    primaryColor: myblue,
     colorScheme: ColorScheme.fromSwatch().copyWith(
-      primary: Color.fromARGB(255, 52, 65, 255),
+      primary: myblue,
       background: myyellowDark,
       secondary: myvioletDark,
       tertiary: mygreenDark,
       scrim: myredDark,
       surface: myorangeDark
     ),
-    cardColor: Color.fromARGB(255, 18, 21, 27),
-    scaffoldBackgroundColor: Color.fromARGB(255, 23, 30, 46),
-    drawerTheme: DrawerThemeData(backgroundColor: Color.fromARGB(255, 18, 21, 27)),
-    canvasColor: Color.fromARGB(255, 18, 21, 27),
+    cardColor: secondary,
+    scaffoldBackgroundColor: mybackground,
+    drawerTheme: DrawerThemeData(backgroundColor: secondary),
+    canvasColor: secondary,
     
     
     appBarTheme: AppBarTheme(
-      backgroundColor: Color.fromARGB(255, 52, 65, 255),
+      //backgroundColor: Color.fromARGB(255, 52, 65, 255),
       //titleTextStyle: TextStyle(color:Color.fromARGB(255, 0, 106, 25)),
       titleTextStyle: TextStyle(fontSize: 30, fontWeight:FontWeight.w300),
-      color: Color.fromARGB(255, 18, 21, 27),
+      color: secondary,
     ),
   );
 }
@@ -182,7 +194,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   String title = 'Главная';
-  static List<String> titles = <String>['Главная', 'Расписание', 'Ведомость', 'Карта', 'Мероприятия'];
+  //static List<String> titles = <String>['Главная', 'Расписание', 'Ведомость', 'Карта', 'Мероприятия'];
   int _selectedIndex = 1;
 
   void _onItemTapped(int index){

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/mycolors.dart';
-import 'package:untitled1/screens/timetable.dart';
 
 
 class WeekForCalendar extends StatelessWidget{

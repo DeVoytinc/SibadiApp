@@ -24,7 +24,7 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
 
   List<CommonStatement> disciplines = <CommonStatement>[];
 
-  int semNumber = 1;
+  int semNumber = DateTime.now().month > 6 ? 1 : 2;
 
   getData() async {
     // if (disciplines.isNotEmpty) {
