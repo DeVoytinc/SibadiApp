@@ -2,7 +2,7 @@
     package="com.example.untitled1">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="untitled1"
+        android:label="Мой СибАДИ"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">

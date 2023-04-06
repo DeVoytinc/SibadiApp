@@ -142,6 +142,7 @@ ThemeData darkThemeData(BuildContext context) {
     
     
     appBarTheme: AppBarTheme(
+      backgroundColor: Color.fromARGB(255, 52, 65, 255),
       //titleTextStyle: TextStyle(color:Color.fromARGB(255, 0, 106, 25)),
       titleTextStyle: TextStyle(fontSize: 30, fontWeight:FontWeight.w300),
       color: Color.fromARGB(255, 18, 21, 27),

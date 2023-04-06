@@ -179,18 +179,18 @@ class AutorisationState extends State<Autorisation>{
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
                 //яндекс дзен
-                SocSeti(imagePath: 'lib/images/vk.png'),
+                SocSeti(imagePath: 'lib/images/vk.png', url: 'https://vk.com/sibadilife',),
                 //const SizedBox(width: 10,),
                 // vk
-                SocSeti(imagePath: 'lib/images/TikTok.png',),
+                SocSeti(imagePath: 'lib/images/TikTok.png', url: 'https://www.tiktok.com/@sibadilife',),
                 //const SizedBox(width: 10,),
 
                 //tiktok
-                SocSeti(imagePath: 'lib/images/YouTube.png'),
+                SocSeti(imagePath: 'lib/images/YouTube.png', url: 'https://www.youtube.com/user/sibaditv',),
                 //const SizedBox(width: 10,),
 
                 //telegram
-                SocSeti(imagePath: 'lib/images/Telegram.png'),
+                SocSeti(imagePath: 'lib/images/Telegram.png', url: 'https://t.me/sibadilife',),
 
               ],
             ),

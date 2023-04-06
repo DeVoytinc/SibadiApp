@@ -54,6 +54,7 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   simple_connection_checker: ^0.2.1
   yandex_mobileads: ^1.1.0
+  url_launcher: ^6.1.10
   
 
 dev_dependencies:
