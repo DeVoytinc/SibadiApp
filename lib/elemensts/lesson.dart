@@ -12,6 +12,7 @@ class Lesson {
   late String finishTime;
   late String teacherName;
   late String auditory;
+  late String groupname;
   late int daynumber;
   late int lessonNumber;
   late Color color;
@@ -44,6 +45,7 @@ class Lesson {
     finishTime = json['конец'];
     teacherName = json['преподаватель'];
     auditory = json['аудитория'];
+    groupname = json['группа'];
     daynumber = json['деньНедели'];
     lessonNumber = json['номерЗанятия'];
     date = json['дата'];
@@ -60,6 +62,7 @@ class Lesson {
         'деньНедели': daynumber,
         'номерЗанятия': lessonNumber,
         'дата': date,
+        'группа': groupname,
         
   };
 

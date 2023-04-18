@@ -9,10 +9,12 @@ import 'package:untitled1/screens/autorizationWiget.dart';
 import 'package:untitled1/mycolors.dart';
 import 'package:untitled1/screens/choose_group.dart';
 import 'package:untitled1/screens/choose_zachetkanumber.dart';
-import 'package:untitled1/screens/timetable.dart';
+import 'package:untitled1/Raspisanie/timetable.dart';
 import 'package:untitled1/statement.dart';
 import 'package:untitled1/screens/home_wiget.dart';
 import 'package:provider/provider.dart';
+
+import 'Raspisanie/getAudsInRaspisanie.dart';
 
 
 List disciplines = [];
@@ -27,9 +29,16 @@ main() async {
     systemNavigationBarColor: Color.fromARGB(255, 30, 30, 30),
     //systemNavigationBarColor: Color.fromARGB(255, 0, 85, 255),
   ));
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
+
+
 
   var savedGroup = await getSelectedGroup();
   var savedZachetka = await getSelectedZachetka();
+  savedRaspis = await getListRaspisaniy();
   if(savedGroup == null || savedZachetka == null) {
     isautorizesd = false;
   }
@@ -46,6 +55,25 @@ main() async {
 void clearSharedPrefrences() async{
   var prefs = await SharedPreferences.getInstance();
   prefs.clear();
+}
+
+Future setListRaspisaniy(List<BaseList> r) async{
+  var prefs = await SharedPreferences.getInstance();
+  prefs.setString('listraspis', BaseList.encode(r));
+}
+
+Future<List<BaseList>> getListRaspisaniy() async{
+  var prefs = await SharedPreferences.getInstance();
+  if (prefs.containsKey('listraspis')) {
+    String strraspis = await prefs.getString('listraspis')!;
+    List<BaseList> raspisJsonMap = BaseList.decode(strraspis);
+    return raspisJsonMap;
+  } 
+  else {
+    List<BaseList> list = [];
+    return list;
+  }
+
 }
 
 Future setRaspisanie(String r) async{
@@ -240,7 +268,7 @@ class _MyHomePageState extends State<MyHomePage>
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: new Theme(
+      bottomNavigationBar: Theme(
         data: dartMode ? lightThemeData(context) : darkThemeData(context), 
         child: BottomNavigationBar(
         //backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
@@ -274,41 +302,10 @@ class _MyHomePageState extends State<MyHomePage>
             ),
             label: "Ведомость",
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.map_outlined, 
-          //   //color: Colors.grey,
-          //   ),
-          //   label: "Карта",
-          //   //backgroundColor: Colors.white
-          // ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.calendar_today_outlined, 
-          //   //color: Colors.grey,
-          //   ),
-          //   label: "Мероприятия",
-          //   //backgroundColor: Colors.white
-          // ),
         ]
       ),
       )
     );
   }
-}
-
-class SavedData {
-
-  late Group selectedGroup;
-  late Zachetka selectedZachetka;
-
-  SavedData();
-
-  SavedData.fromJson(Map<String, dynamic> json)
-      : selectedGroup = json['группа'],
-        selectedZachetka = json['зачетка'];
-
-  Map<String, dynamic> toJson() => {
-        'группа': selectedGroup,
-        'зачетка': selectedZachetka,
-      };
 }
 

@@ -23,12 +23,12 @@ class _ChooseZachetcaState extends State<ChooseZachetca> with SingleTickerProvid
   }
 
   void goToNextPage(BuildContext context){
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context, 
       new MaterialPageRoute(builder: (BuildContext context) => 
         new MyApp()
-      )
-    );
+      ), (Route<dynamic> route) => false);
+    //);
   }
 
   getZachetcki() async {

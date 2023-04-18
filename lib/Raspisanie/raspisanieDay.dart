@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 class WeekForCalendar extends StatelessWidget{
-  late List<DateTime> week;
+  final List<DateTime> week;
   bool selected = false;
 
   WeekForCalendar({
@@ -14,9 +14,6 @@ class WeekForCalendar extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [
-        
-      ],
     );
   }
 
@@ -26,7 +23,7 @@ class RaspisanieDay extends StatelessWidget {
   final int daynumber;
   final String dayname;
   final int index;
-  DateTime date;
+  final DateTime date;
   bool selected = false;
 
   RaspisanieDay({
@@ -44,7 +41,7 @@ class RaspisanieDay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 20, left: 5, right: 5, bottom: 5),
+      margin: EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 5),
       //padding: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         color: selected ? Theme.of(context).colorScheme.primary : Theme.of(context).appBarTheme.backgroundColor,

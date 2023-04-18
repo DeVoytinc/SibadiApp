@@ -108,6 +108,11 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                     padding: const EdgeInsets.only(right: 20.0),
                     child: Divider(),
                   ),
+                  TextButton(onPressed: (){}, child: Text('О приложении', style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400
+                  ),)),
                   //SizedBox(height: 20,),
                   // Container(
                   //   child: Row(children: [

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:untitled1/elemensts/discipMarks.dart';
-import 'package:untitled1/mycolors.dart';
 import 'package:untitled1/statement.dart';
 import 'package:http/http.dart' as http;
 import 'package:windows1251/windows1251.dart';
@@ -114,7 +113,6 @@ getData() async {
 
   @override
   Widget build(BuildContext context) {
-  String dropdownValue = list.first;
     //getData();
     return Scaffold(
       

@@ -182,15 +182,15 @@ class AutorisationState extends State<Autorisation>{
                 SocSeti(imagePath: 'lib/images/vk.png', url: 'https://vk.com/sibadilife',),
                 //const SizedBox(width: 10,),
                 // vk
-                SocSeti(imagePath: 'lib/images/TikTok.png', url: 'https://www.tiktok.com/@sibadilife',),
+                SocSeti(imagePath: 'lib/images/zen.png', url: 'https://dzen.ru/id/5d9a31ed35c8d800ae71f2db?share_to=link',),
                 //const SizedBox(width: 10,),
 
                 //tiktok
-                SocSeti(imagePath: 'lib/images/YouTube.png', url: 'https://www.youtube.com/user/sibaditv',),
+                SocSeti(imagePath: 'lib/images/rutube.png', url: 'https://rutube.ru/channel/23787619',),
                 //const SizedBox(width: 10,),
 
                 //telegram
-                SocSeti(imagePath: 'lib/images/Telegram.png', url: 'https://t.me/sibadilife',),
+                SocSeti(imagePath: 'lib/images/Telegram.png', url: 'tg:resolve?domain=sibadilife',),
 
               ],
             ),

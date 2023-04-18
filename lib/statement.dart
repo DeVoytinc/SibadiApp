@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/PersonalStateMent.dart';
 import 'package:untitled1/commonStatementScreen.dart';
-import 'package:untitled1/mycolors.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 import 'package:untitled1/screens/choose_group.dart';
 import 'package:untitled1/screens/choose_zachetkanumber.dart';
-import 'package:untitled1/screens/timetable.dart';
+import 'package:untitled1/Raspisanie/timetable.dart';
 import 'package:windows1251/windows1251.dart';
 
 String groupLink = selectedGroup.link;

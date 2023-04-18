@@ -66,7 +66,7 @@ class PersonalStatementItem extends StatelessWidget{
         )
       ],
     )
-  );;
+  );
 
   }
 
