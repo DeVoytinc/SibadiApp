@@ -1,28 +1,38 @@
 import 'dart:convert';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-//import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled1/customSplashscreen.dart';
 import 'package:untitled1/screens/autorizationWiget.dart';
 import 'package:untitled1/mycolors.dart';
 import 'package:untitled1/screens/choose_group.dart';
 import 'package:untitled1/screens/choose_zachetkanumber.dart';
 import 'package:untitled1/Raspisanie/timetable.dart';
-import 'package:untitled1/statement.dart';
 import 'package:untitled1/screens/home_wiget.dart';
 import 'package:provider/provider.dart';
-
 import 'Raspisanie/getAudsInRaspisanie.dart';
+import 'Statement/statement.dart';
+import 'firebase_options.dart';
+import 'logic/ConnetionCheck.dart';
 
 
 List disciplines = [];
 bool isautorizesd = false;
 bool dartMode = false;
 
+
 main() async {
+
+
   WidgetsFlutterBinding.ensureInitialized();
+
+  await CheckConnection();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Color.fromARGB(255, 30, 30, 30),
@@ -76,13 +86,20 @@ Future<List<BaseList>> getListRaspisaniy() async{
 
 }
 
-Future setRaspisanie(String r) async{
+Future setRaspisanie(String r, DateTime date) async{
   var prefs = await SharedPreferences.getInstance();
   prefs.setString('raspis', r);
+  prefs.setString('raspisdate', date.toString());
 }
 
+late DateTime? dateFromLastSave;
 Future<String?> getRaspisanie() async{
   var prefs = await SharedPreferences.getInstance();
+  if (prefs.containsKey('raspisdate')){
+    dateFromLastSave = DateTime.parse(prefs.getString('raspisdate')!);
+  }else{
+    dateFromLastSave = null;
+  }
   return prefs.getString('raspis');
 }
 
@@ -180,7 +197,21 @@ ThemeData darkThemeData(BuildContext context) {
     drawerTheme: DrawerThemeData(backgroundColor: secondary),
     canvasColor: secondary,
     
-    
+    switchTheme: SwitchThemeData(
+      thumbColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) {
+          return myblue;
+        }
+        return Colors.white;
+      }),
+      trackColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) {
+          return Colors.blue[900];
+        }
+        return Colors.white38;
+      }),
+    ),
+
     appBarTheme: AppBarTheme(
       //backgroundColor: Color.fromARGB(255, 52, 65, 255),
       //titleTextStyle: TextStyle(color:Color.fromARGB(255, 0, 106, 25)),
@@ -204,7 +235,7 @@ class MyApp extends StatelessWidget {
           theme: lightThemeData(context),
           darkTheme: darkThemeData(context),
           themeMode: themeProvider.themeMode,
-          home: MyHomePage(title: 'asdf',),
+          home: MyCustomSplashScreen(),
         );
       }
     );
@@ -213,8 +244,7 @@ class MyApp extends StatelessWidget {
 
   
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({required this.title});
-  final String title;
+  const MyHomePage();
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }

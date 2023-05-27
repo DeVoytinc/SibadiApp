@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "534462399375",
+    "project_id": "sibadiapp",
+    "storage_bucket": "sibadiapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534462399375:android:1226d613fa305afb4501fa",
+        "android_client_info": {
+          "package_name": "com.DeVoyt.sibadi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534462399375-eqquesrt9rnnmmt3evg2uu7n5vc54hd4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXZ5YOllcU0_9--DbhkuMXbfsuRikd37Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534462399375-eqquesrt9rnnmmt3evg2uu7n5vc54hd4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

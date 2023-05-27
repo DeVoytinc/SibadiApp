@@ -1,9 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:untitled1/PersonalStateMent.dart';
 import 'package:untitled1/mycolors.dart';
-import 'package:untitled1/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 import 'package:untitled1/screens/choose_group.dart';
@@ -183,32 +180,32 @@ class _CommonStatementForDiscState extends State<CommonStatementForDisc> with Si
           // ),
           ListView(
             children: [
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
             ],
           ),
           ListView(
             children: [
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
-              PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
+              // PersonalStatementItem(),
             ],
           )
       ],),
