@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:untitled1/Raspisanie/getAudsInRaspisanie.dart';
-import 'package:untitled1/Raspisanie/timetable.dart';
 
 import 'ListviewOtherRaspisanie.dart';
 import 'sorttabForRaspisanie.dart';
@@ -22,6 +21,7 @@ class _ChooseRaspisanieState extends State<ChooseRaspisanie> {
   changeSortTabIndex(int i){
     setState(() {
       tabIndex = i;
+      
     });
   }
 
@@ -51,7 +51,7 @@ class _ChooseRaspisanieState extends State<ChooseRaspisanie> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: TextField(
-                  
+                   
                   decoration: const InputDecoration(
                     //fillColor: Colors.amber,
                       labelText: 'Поиск',

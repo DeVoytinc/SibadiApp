@@ -58,6 +58,10 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   firebase_core: ^2.10.0
   intl: ^0.17.0
+  table_calendar: ^3.0.8
+  firebase_auth: ^4.6.3
+  svg_path_parser: ^1.1.1
+  google_sign_in: ^6.1.4
   
 
 dev_dependencies:
@@ -88,6 +92,10 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - lib/images/
+    - lib/images/1 korpus/
+    - lib/images/2 korpus/
+    - lib/images/3 korpus/
+    
     #- lib/resourses_data/groups_file.txt
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

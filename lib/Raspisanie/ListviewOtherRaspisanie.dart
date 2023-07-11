@@ -6,6 +6,7 @@ import 'getAudsInRaspisanie.dart';
 
 //List<BaseList> favoritelist = [];
 
+// ignore: must_be_immutable
 class ListViewOtherrasrisanie extends StatefulWidget {
   //const ListViewOtherrasrisanie({super.key});
   ListViewOtherrasrisanie(
@@ -31,14 +32,16 @@ class _ListViewOtherrasrisanieState extends State<ListViewOtherrasrisanie> {
     'https://umu.sibadi.org/api/raspTeacherlist',
   ];
 
+
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: getListInRaspisanie(urls[widget.tabIndex], widget.searchWord, widget.tabIndex),
         builder: (context, AsyncSnapshot snap) {
-          if (!snap.hasData) {
+          if (snap.connectionState == ConnectionState.waiting) {
             return Center(
-              child: Text('Нет подключения к интернету'),
+              child: CircularProgressIndicator(),
             );
           } else {
             return ListView.builder(

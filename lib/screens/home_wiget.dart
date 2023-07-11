@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:untitled1/main.dart';
@@ -5,6 +6,11 @@ import 'package:untitled1/main.dart';
 import 'package:untitled1/mycolors.dart';
 import 'package:untitled1/screens/choose_group.dart';
 import 'package:untitled1/screens/choose_zachetkanumber.dart';
+import 'package:untitled1/screens/services_screen/fitness_screen.dart';
+import 'package:untitled1/screens/services_screen/map.dart';
+import 'package:untitled1/screens/services_screen/spravki_screen.dart';
+
+import '../firebase/firebase_auth_user.dart';
 // import 'package:http/http.dart' as http; 
 // import 'package:html/parser.dart';
 
@@ -123,20 +129,35 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                     padding: const EdgeInsets.only(right: 20.0),
                     child: Divider(),
                   ), 
-                  Container(child: Row(
-                    children: [
-                    Container(
-                      child: TextButton(
-                      onPressed: () { clearSharedPrefrences(); main(); },
-                      child: Text(
-                        'Выйти',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 16,
+                  Container(
+                    child: Row(
+                      children: [
+                      Container(
+                        child: TextButton(
+                        onPressed: () { clearSharedPrefrences(); main(); },
+                        child: Text(
+                          'Выйти',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 16,
+                          ),
+                        ), 
                         ),
-                      ), 
-                      ),),
+                      ),
                       Expanded(child: Container()),
+                      Container(
+                        child: TextButton(
+                        onPressed: () { Auth().signOut(); },
+                        child: Text(
+                          'Выйти из аккаунта google',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 16,
+                          ),
+                        ), 
+                        ),
+                      ),
+
                     // IconButton(
                     //   isSelected: dartMode,
                     //   onPressed: () {
@@ -153,14 +174,137 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
           ),
         ),
         body: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+          // child: Column(children: [
+          //     Lottie.network('https://assets8.lottiefiles.com/packages/lf20_dsxct2el.json', height: 300),
+          //     const Text('В разработке', style: TextStyle(fontSize: 17),),
+
+          // ],)
+          child: GridView(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
             children: [
-              Lottie.network('https://assets8.lottiefiles.com/packages/lf20_dsxct2el.json', height: 300),
-              const Text('В разработке', style: TextStyle(fontSize: 17),),
-            ]
-          ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () { 
+                        Navigator.push(
+                          context, 
+                          new MaterialPageRoute(
+                            builder: (BuildContext context) => 
+                              new MapScreen())
+                        );
+                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).canvasColor,
+                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+                        fixedSize: Size(100, 100),
+                      ),
+                      child: Icon(Icons.map, size: 70,),
+                    ),
+                  ),
+                Text("Карта")
+                ],
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () { 
+                        Navigator.push(
+                          context, 
+                          new MaterialPageRoute(
+                            builder: (BuildContext context) => 
+                              new Spravki())
+                        );
+                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).canvasColor,
+                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+                        fixedSize: Size(100, 100),
+                      ),
+                      child:  Icon(Icons.description_outlined, size: 70,),
+                    ),
+                  ),
+                Text("Справки")
+                ],
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () {  },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).canvasColor,
+                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+                        fixedSize: Size(100, 100),
+                      ),
+                      child:  Icon(Icons.menu_book_sharp, size: 70,),
+                    ),
+                  ),
+                Text("Библиотека")
+                ],
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () {  },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).canvasColor,
+                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+                        fixedSize: Size(100, 100),
+                      ),
+                      child:  Icon(Icons.portrait_rounded, size: 70,),
+                    ),
+                  ),
+                Text("Портфолио")
+                ],
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () { 
+                        FirebaseAuth.instance
+                        .idTokenChanges()
+                        .listen((User? user) {
+                          if (user == null) {
+                            print('User is currently signed out!');
+                            Navigator.push(
+                              context, 
+                              new MaterialPageRoute(builder: (BuildContext context) => 
+                                new FireAuth()
+                              )
+                            );
+                            return;
+                          } else {
+                            Navigator.push(
+                              context, 
+                              new MaterialPageRoute(
+                                builder: (BuildContext context) => 
+                                  new FitnessScreen())
+                            );
+                          }
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).canvasColor,
+                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+                        fixedSize: Size(100, 100),
+                      ),
+                      child:  Icon(Icons.fitness_center_rounded, size: 70,),
+                    ),
+                  ),
+                Text("Планер тренировок")
+                ],
+              ),
+            ],
+          )
         ),
         appBar: AppBar(
           //backgroundColor: MediaQuery.of(context.),
@@ -168,7 +312,7 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
             padding: const EdgeInsets.only(top: 0.0, right: 50),
             child: Center(
               child: Text(
-                'Карта',
+                'Сервисы',
                 style: TextStyle(
                   //color: myblue,
                   //fontWeight: FontWeight.bold,

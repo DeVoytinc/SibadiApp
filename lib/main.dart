@@ -1,6 +1,5 @@
-import 'dart:convert';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +15,7 @@ import 'Raspisanie/getAudsInRaspisanie.dart';
 import 'Statement/statement.dart';
 import 'firebase_options.dart';
 import 'logic/ConnetionCheck.dart';
+import 'dart:convert';
 
 
 List disciplines = [];
@@ -196,6 +196,7 @@ ThemeData darkThemeData(BuildContext context) {
     scaffoldBackgroundColor: mybackground,
     drawerTheme: DrawerThemeData(backgroundColor: secondary),
     canvasColor: secondary,
+    //useMaterial3: true,
     
     switchTheme: SwitchThemeData(
       thumbColor: MaterialStateProperty.resolveWith((states) {
@@ -251,8 +252,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  String title = 'Главная';
-  //static List<String> titles = <String>['Главная', 'Расписание', 'Ведомость', 'Карта', 'Мероприятия'];
+
   int _selectedIndex = 1;
 
   void _onItemTapped(int index){
@@ -262,24 +262,10 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     TopTabBar(),
     TimeTable(),
     TopTabBarStatement(),
-    const Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
-    const Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
-    const Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
   ];
 
 
@@ -316,9 +302,9 @@ class _MyHomePageState extends State<MyHomePage>
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.map_outlined, 
+              Icons.grid_view_rounded, 
             ),
-            label: "Карта",
+            label: "Сервисы",
           ),
           BottomNavigationBarItem(
             icon: Icon(

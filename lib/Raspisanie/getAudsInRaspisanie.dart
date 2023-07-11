@@ -13,12 +13,13 @@ int ttabindex = 0;
 
 
 Future<List<BaseList>> getListInRaspisanie(String url, String searchWord, int tabIndex) async {
+
   if (url == turl && tsearchWor == searchWord && ListInRaspisanie.isNotEmpty)
     return ListInRaspisanie;
-  ListInRaspisanie.clear();
   Uri uri = Uri.parse(url);
   final response =
   await http.Client().get(uri);
+  ListInRaspisanie.clear();
   if (response.statusCode == 200) {
     final jsonmap = jsonDecode(response.body);
     var rasplist = jsonmap['data'];

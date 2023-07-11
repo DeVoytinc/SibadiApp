@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/Raspisanie/timetable.dart';
 
 import 'ChooseRaspisanie.dart';
 
+// ignore: must_be_immutable
 class SortTabRaspisanie extends StatelessWidget {
   SortTabRaspisanie({super.key, required this.index, required this.label, required this.funk});
 
@@ -25,7 +25,12 @@ class SortTabRaspisanie extends StatelessWidget {
               //side: BorderSide(color: Theme.of(context).primaryColor, width: 1),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)))
           ),
-          child: Text(label),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+            ),
+            ),
         ),
       )
     );

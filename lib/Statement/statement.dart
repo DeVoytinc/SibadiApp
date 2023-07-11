@@ -236,16 +236,20 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-          Expanded(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: IconButton(icon: Icon(Icons.settings_rounded), onPressed: (){Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: ((context) => StatementSettings())
-                  ),
-              ); },),
-            ),
-          ),
+
+
+//кнопка настроек
+
+          // Expanded(
+          //   child: Align(
+          //     alignment: Alignment.centerLeft,
+          //     child: IconButton(icon: Icon(Icons.settings_rounded), onPressed: (){Navigator.of(context).push(
+          //         MaterialPageRoute(
+          //           builder: ((context) => StatementSettings())
+          //         ),
+          //     ); },),
+          //   ),
+          // ),
           Expanded(
             child: Center(
               child: Container(

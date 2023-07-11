@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 
+// ignore: must_be_immutable
 class WeekForCalendar extends StatelessWidget{
   final List<DateTime> week;
   bool selected = false;
@@ -19,6 +20,7 @@ class WeekForCalendar extends StatelessWidget{
 
 }
 
+// ignore: must_be_immutable
 class RaspisanieDay extends StatelessWidget {
   final int daynumber;
   final String dayname;
