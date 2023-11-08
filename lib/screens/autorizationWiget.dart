@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:untitled1/elemensts/soc_seti.dart';
+import 'package:untitled1/firebase/firebase_auth_user.dart';
+import 'package:untitled1/screens/registration.dart';
 import 'package:windows1251/windows1251.dart';
 import 'package:html/parser.dart';
 
@@ -38,6 +41,7 @@ getGroups() async {
       }
     }
   }
+  return groups;
 }
 
 class Autorisation extends StatefulWidget {
@@ -52,6 +56,11 @@ class Autorisation extends StatefulWidget {
 
 class AutorisationState extends State<Autorisation>{
 
+  late FToast fToast;
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   static String _displayStringForOption(Group option) => option.name;
 
   void goToNextPage(BuildContext context){
@@ -63,29 +72,40 @@ class AutorisationState extends State<Autorisation>{
     );
   }
 
+  addDataToFirestore() async{
+    await FirebaseFirestore.instance.collection('users')
+    .doc(FirebaseAuth.instance.currentUser?.uid)
+    .set({'User ID' : FirebaseAuth.instance.currentUser?.uid});
+  }
+
+  @override
+  void initState() {
+     super.initState();
+    fToast = FToast();
+    fToast.init(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     getGroups();
     return Scaffold(
     backgroundColor: Color.fromARGB(255, 255, 255, 255),
-    //backgroundColor: Color.,
     body: Container(
       padding: EdgeInsets.all(0),
       decoration: BoxDecoration(
-        //color:  Color.fromARGB(255, 245, 245, 245),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        //mainAxisSize: MainAxisSize.min,
+        //crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             flex: 5,
             child: Container(
-              margin: EdgeInsets.all(8),
+              margin: EdgeInsets.all(15),
               child: Image.asset(
                 'lib/images/Exclude.png',
                 alignment: Alignment.bottomCenter,
-                scale: 6,
+                scale: 4.5,
                 color: Color.fromARGB(255, 0, 119, 255),
               ),
             ),
@@ -99,7 +119,7 @@ class AutorisationState extends State<Autorisation>{
                 textAlign: TextAlign.center,
                 style: GoogleFonts.alumniSans(
                   textStyle: TextStyle(
-                    fontSize: 38,
+                    fontSize: 45,
                     // fontWeight: FontWeight.w300,
                     color:  Color.fromARGB(255, 20, 106, 255),
                   ),
@@ -107,96 +127,154 @@ class AutorisationState extends State<Autorisation>{
               ),
             ),
           ),
-          Expanded(
-            flex: 10,
-            child: Container(
-              //color: Colors.red,
-                child: Lottie.network('https://assets1.lottiefiles.com/packages/lf20_hxart9lz.json',
-                  height: 350,
-                )
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+            child: TextField(
+              style: TextStyle(color: Colors.black),
+              controller: emailController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelStyle: TextStyle(color: Colors.black45),
+                labelText: 'Почта',
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+            child: TextField(
+              style: TextStyle(color: Colors.black),
+              controller: passwordController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelStyle: TextStyle(color: Colors.black45),
+                labelText: 'Пароль',
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+            child: ElevatedButton(
+              onPressed: () async {   
+                User? user = await Auth().signInWithEmailAndPassword(emailController.text, passwordController.text);
+                if (user != null){
+                  goToNextPage(context);
+                  await addDataToFirestore();
+                }
+                else{
+                  Fluttertoast.showToast(msg: 'Не удалось войти в аккаунт',);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 0, 94, 255),
+                padding: EdgeInsets.symmetric(vertical: 20),
+              ),
+              child: const Center(
+                child: Text('Войти',
+                  style: TextStyle(color: Color.fromARGB(255, 255, 255, 255),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          //  Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+          //   child: ElevatedButton(
+          //     onPressed: () async {
+
+          //       await Auth().signInWithGoogle();
+          //       await addDataToFirestore();
+          //     },
+          //     style: ElevatedButton.styleFrom(
+          //       backgroundColor: Color.fromARGB(255, 0, 94, 255),
+          //       padding: EdgeInsets.symmetric(vertical: 20),
+          //     ),
+          //     child: const Center(
+          //       child: Text('Войти с помощью Google',
+          //         style: TextStyle(color: Color.fromARGB(255, 255, 255, 255),
+          //           fontWeight: FontWeight.bold,
+          //           fontSize: 16,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
             child: ElevatedButton(
               onPressed: () {
                 goToNextPage(context);
               },
-              style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll<Color>(Color.fromARGB(255, 0, 94, 255)),
-                padding: MaterialStatePropertyAll<EdgeInsets>(EdgeInsets.symmetric(vertical: 20)),
-                //elevation: MaterialStatePropertyAll<double>(100),
-                //shape:  MaterialStatePropertyAll<OutlinedBorder>(OutlinedBorder(side: )),
-                ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 0, 94, 255),
+                padding: EdgeInsets.symmetric(vertical: 20),
+              ),
               child: const Center(
-                child: Text('Вход',
+                child: Text('Войти как гость',
                   style: TextStyle(color: Color.fromARGB(255, 255, 255, 255),
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 16,
                   ),
                 ),
               ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+            child: TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context, 
+                  new MaterialPageRoute(builder: (BuildContext context) => 
+                    new Registration()
+                  )
+                );
+              },
+              child: Text(
+                'Зарегистрироваться',
+                style: TextStyle(fontSize: 16),
               ),
+            ),
           ),
           Expanded(child: Container(
             //color: Colors.black,
           )),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Row(
-              children: [
-                Expanded(child: Divider(
-                  thickness: 1,
-                  color:Color.fromARGB(255, 175, 175, 175),
-                ),
-                ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          //   child: Row(
+          //     children: [
+          //       Expanded(child: Divider(
+          //         thickness: 1,
+          //         color:Color.fromARGB(255, 175, 175, 175),
+          //       ),
+          //       ),
 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Text('Социальные сети',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 175, 175, 175),
-                    ),
-                  ),
-                ),
+          //       Padding(
+          //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          //         child: Text('или',
+          //           style: TextStyle(
+          //             color: Color.fromARGB(255, 175, 175, 175),
+          //           ),
+          //         ),
+          //       ),
 
-                Expanded(child: Divider(
-                  thickness: 1,
-                  color:Color.fromARGB(255, 175, 175, 175),
-                ),
-                ),
+          //       Expanded(child: Divider(
+          //         thickness: 1,
+          //         color:Color.fromARGB(255, 175, 175, 175),
+          //       ),
+          //       ),
 
-              ],
-            ),
-          ),
-
-          //const SizedBox(height: 20),
-
-          //Expanded(child: Container()),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                //яндекс дзен
-                SocSeti(imagePath: 'lib/images/vk.png', url: 'https://vk.com/sibadilife',),
-                //const SizedBox(width: 10,),
-                // vk
-                SocSeti(imagePath: 'lib/images/zen.png', url: 'https://dzen.ru/id/5d9a31ed35c8d800ae71f2db?share_to=link',),
-                //const SizedBox(width: 10,),
-
-                //tiktok
-                SocSeti(imagePath: 'lib/images/rutube.png', url: 'https://rutube.ru/channel/23787619',),
-                //const SizedBox(width: 10,),
-
-                //telegram
-                SocSeti(imagePath: 'lib/images/Telegram.png', url: 'tg:resolve?domain=sibadilife',),
-
-              ],
-            ),
-          ),
-
-          //Expanded(child: Container(color: Color.fromARGB(255, 255, 255, 255),))
+          //     ],
+          //   ),
+          // ),
+          // TextButton(onPressed: (){}, child: Text(
+          //   'Войти как гость',
+          //   style: TextStyle(
+          //     color: Colors.black54,
+          //     fontSize: 14,
+          //   ),
+          // )),
         ],
       ),
     ),

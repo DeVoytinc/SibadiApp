@@ -4,10 +4,15 @@ import 'package:lottie/lottie.dart';
 import 'package:untitled1/main.dart';
 //import 'package:untitled1/elemensts/drawer.dart';
 import 'package:untitled1/mycolors.dart';
+import 'package:untitled1/screens/autorizationWiget.dart';
 import 'package:untitled1/screens/choose_group.dart';
 import 'package:untitled1/screens/choose_zachetkanumber.dart';
+import 'package:untitled1/screens/services_screen/about_app_screen.dart';
+import 'package:untitled1/screens/services_screen/bibly_auth_screen.dart';
+import 'package:untitled1/screens/services_screen/block_screen.dart';
 import 'package:untitled1/screens/services_screen/fitness_screen.dart';
 import 'package:untitled1/screens/services_screen/map.dart';
+import 'package:untitled1/screens/services_screen/money_screen.dart';
 import 'package:untitled1/screens/services_screen/spravki_screen.dart';
 
 import '../firebase/firebase_auth_user.dart';
@@ -112,7 +117,14 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                     padding: const EdgeInsets.only(right: 20.0),
                     child: Divider(),
                   ),
-                  TextButton(onPressed: (){}, child: Text('О приложении', style: TextStyle(
+                  TextButton(onPressed: (){
+                    Navigator.push(
+                      context, 
+                      new MaterialPageRoute(
+                        builder: (BuildContext context) => 
+                          new AboutApp())
+                    );
+                    }, child: Text('О приложении', style: TextStyle(
                     color: Colors.white,
                     fontSize: 17,
                     fontWeight: FontWeight.w400
@@ -134,7 +146,18 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                       children: [
                       Container(
                         child: TextButton(
-                        onPressed: () { clearSharedPrefrences(); main(); },
+                        onPressed: () { 
+                          clearSharedPrefrences();
+                          Navigator.pushAndRemoveUntil(
+                          context, 
+                          new MaterialPageRoute(builder: (BuildContext context) => 
+                            new Autorisation()
+                          ), (Route<dynamic> route) => false);
+                          if (FirebaseAuth.instance.currentUser != null)
+                            Auth().signOut(); 
+                          },
+
+
                         child: Text(
                           'Выйти',
                           style: TextStyle(
@@ -145,18 +168,18 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                         ),
                       ),
                       Expanded(child: Container()),
-                      Container(
-                        child: TextButton(
-                        onPressed: () { Auth().signOut(); },
-                        child: Text(
-                          'Выйти из аккаунта google',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 16,
-                          ),
-                        ), 
-                        ),
-                      ),
+                      // Container(
+                      //   child: TextButton(
+                      //   onPressed: () { Auth().signOut(); },
+                      //   child: Text(
+                      //     'Выйти из аккаунта google',
+                      //     style: TextStyle(
+                      //       color: Colors.red,
+                      //       fontSize: 16,
+                      //     ),
+                      //   ), 
+                      //   ),
+                      // ),
 
                     // IconButton(
                     //   isSelected: dartMode,
@@ -193,6 +216,7 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                           new MaterialPageRoute(
                             builder: (BuildContext context) => 
                               new MapScreen())
+                              //new BlockScreen())
                         );
                        },
                       style: ElevatedButton.styleFrom(
@@ -216,7 +240,8 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                           context, 
                           new MaterialPageRoute(
                             builder: (BuildContext context) => 
-                              new Spravki())
+                              //new Spravki())
+                              new BlockScreen())
                         );
                        },
                       style: ElevatedButton.styleFrom(
@@ -235,7 +260,40 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
-                      onPressed: () {  },
+                      onPressed: () { 
+                        Navigator.push(
+                          context, 
+                          new MaterialPageRoute(
+                            builder: (BuildContext context) => 
+                              //new Spravki())
+                              new AboutMoneyScreen())
+                        );
+                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).canvasColor,
+                        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+                        fixedSize: Size(100, 100),
+                      ),
+                      child:  Icon(Icons.attach_money, size: 70,),
+                    ),
+                  ),
+                Text("Стипендии")
+                ],
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () { 
+                        Navigator.push(
+                          context, 
+                          new MaterialPageRoute(
+                            builder: (BuildContext context) => 
+                              //new Spravki())
+                              new BibliyAuthScreen())
+                        );
+                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).canvasColor,
                         shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
@@ -252,7 +310,13 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
-                      onPressed: () {  },
+                      onPressed: () { Navigator.push(
+                          context, 
+                          new MaterialPageRoute(
+                            builder: (BuildContext context) => 
+                              //new Spravki())
+                              new BlockScreen())
+                        ); },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).canvasColor,
                         shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
@@ -300,7 +364,7 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                       child:  Icon(Icons.fitness_center_rounded, size: 70,),
                     ),
                   ),
-                Text("Планер тренировок")
+                Center(child: Text("Планер тренировок"))
                 ],
               ),
             ],

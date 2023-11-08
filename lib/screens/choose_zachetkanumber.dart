@@ -16,22 +16,7 @@ class ChooseZachetca extends StatefulWidget{
   _ChooseZachetcaState createState() => _ChooseZachetcaState();
 }
 
-class _ChooseZachetcaState extends State<ChooseZachetca> with SingleTickerProviderStateMixin{
-
-  void goBack(BuildContext context){
-    Navigator.pop(context);
-  }
-
-  void goToNextPage(BuildContext context){
-    Navigator.pushAndRemoveUntil(
-      context, 
-      new MaterialPageRoute(builder: (BuildContext context) => 
-        new MyApp()
-      ), (Route<dynamic> route) => false);
-    //);
-  }
-
-  getZachetcki() async {
+  Future<List<Zachetka>> getZachetcki() async {
     zachetki.clear();
     Uri uri = Uri.parse('https://umu.sibadi.org/Totals/Totals.aspx?group=${selectedGroup.link}');
 
@@ -46,8 +31,25 @@ class _ChooseZachetcaState extends State<ChooseZachetca> with SingleTickerProvid
         zachetki.add(Zachetka(name: windows1251.decode(a[0].text.codeUnits), kod: a[0].attributes.values.first.split('id=')[1]));
       }
     }
+    return zachetki;
     
   }
+
+class _ChooseZachetcaState extends State<ChooseZachetca> with SingleTickerProviderStateMixin{
+
+  void goBack(BuildContext context){
+    Navigator.pop(context);
+  }
+
+  void goToNextPage(BuildContext context){
+    Navigator.pushAndRemoveUntil(
+      context, 
+      new MaterialPageRoute(builder: (BuildContext context) => 
+        new MyHomePage()
+      ), (Route<dynamic> route) => false);
+    //);
+  }
+
 
   @override
   void initState() {
@@ -61,8 +63,9 @@ class _ChooseZachetcaState extends State<ChooseZachetca> with SingleTickerProvid
   Widget build(BuildContext context) {
     getZachetcki();
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 60, 116, 213),
+        backgroundColor: Color.fromARGB(255, 20, 106, 255),
         title: Center(
           child: Text("Номер зачётки",
         ),
@@ -77,7 +80,7 @@ class _ChooseZachetcaState extends State<ChooseZachetca> with SingleTickerProvid
        actions: [Padding(
          padding: const EdgeInsets.all(14.0),
          child: Icon(Icons.arrow_back,
-            color: Color.fromARGB(255, 60, 116, 213),
+            color: Color.fromARGB(255, 20, 106, 255),
             ),
        ),
         ]
@@ -104,7 +107,7 @@ class _ChooseZachetcaState extends State<ChooseZachetca> with SingleTickerProvid
                               margin: EdgeInsets.only(top: 15, left: 15, right: 15),
                               decoration: BoxDecoration (
                               borderRadius: BorderRadius.circular(6),
-                              color: Color.fromARGB(255, 60, 116, 213),
+                              color: Color.fromARGB(255, 20, 106, 255),
                               ),
                               height: 70,
                               child: Column(

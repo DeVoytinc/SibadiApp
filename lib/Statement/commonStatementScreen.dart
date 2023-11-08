@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled1/Statement/statement.dart';
+import 'package:untitled1/elemensts/discipMarks.dart';
 import 'package:untitled1/logic/StatementParser.dart';
 
 import 'commonStatementItem.dart';
@@ -23,11 +24,17 @@ class _CommonStatementScreenState extends State<CommonStatementScreen> {
   String teacherName= '';
   StatementParser statementParser = StatementParser();
 
+  late Future<List<DiscipStatementData>> _getGroupData;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    statementParser.init(context, 2);
+    //statementParser.init(context, 2);
+    _getGroupData = getGroupData();
+  }
+
+   Future<List<DiscipStatementData>> getGroupData() async {
+    return statementParser.getGroupData(widget.inputdata); 
   }
 
   Widget KTmarks(int index, String text, String mark1, String mark2){
@@ -67,7 +74,7 @@ class _CommonStatementScreenState extends State<CommonStatementScreen> {
             onPressed: () => setState(() {
               showInfo = !showInfo;
             }),
-            icon: Icon(Icons.info_outline)
+            icon: const Icon(Icons.info_outline)
           ),
         ],
       ),
@@ -80,23 +87,23 @@ class _CommonStatementScreenState extends State<CommonStatementScreen> {
             color: Theme.of(context).canvasColor,
             child: Column(
               children: [
-                Expanded(
+                const Expanded(
                   child: Row(
                     children: [
                       Expanded(child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0),
                         child: Text("Кафедра"),
                       )),
                       Expanded(child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0),
                         child: Text("Цифровые технологии"),
                       )),
                 ],)),
                 Expanded(
                   child: Row(
                     children: [
-                      Expanded(child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Expanded(child: Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Text("Преподаватель"),
                       )),
                       Expanded(child: Padding(
@@ -107,8 +114,8 @@ class _CommonStatementScreenState extends State<CommonStatementScreen> {
                 Expanded(
                   child: Row(
                     children: [
-                      Expanded(child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Expanded(child: Padding(
+                        padding:  EdgeInsets.all(8.0),
                         child: Text("Тип"),
                       )),
                       Expanded(child: Padding(
@@ -116,11 +123,11 @@ class _CommonStatementScreenState extends State<CommonStatementScreen> {
                         child: Text(discipType),
                       )),
                 ],)),
-                Expanded(
+                const Expanded(
                   child: Row(
                     children: [
                       Expanded(child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0),
                         child: Text("Дата экзамена"),
                       )),
                       Expanded(child: Padding(
@@ -137,7 +144,7 @@ class _CommonStatementScreenState extends State<CommonStatementScreen> {
             height: 50,
             color: Theme.of(context).canvasColor,
             child: isKursash ? 
-              Row(
+              const Row(
                 children: [
                   Expanded(
                     flex: 1,
@@ -148,12 +155,12 @@ class _CommonStatementScreenState extends State<CommonStatementScreen> {
                   Expanded(
                     flex: 3,
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
+                      padding: EdgeInsets.only(right: 10.0),
                       child: Center(child: Text(' Итог')),
                     )),
                 ]
               ) :
-              Row(
+              const Row(
                 children: [
                   Expanded(
                     flex: 1,
@@ -170,25 +177,40 @@ class _CommonStatementScreenState extends State<CommonStatementScreen> {
                   Expanded(
                     flex: 2,
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
+                      padding: EdgeInsets.only(right: 10.0),
                       child: Center(child: Text('Итог')),
                     )),
                 ]
               ),
           ),
           FutureBuilder(
-            future: statementParser.getGroupData(widget.inputdata),
+            future: _getGroupData,
             builder: (context, AsyncSnapshot snapshot){
-              return Expanded(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: statementParser.currentGroupStatement.length,
-                  itemBuilder: (BuildContext context, int index){
-                    return CommonStatementItem(inputdata: statementParser.currentGroupStatement[index]);
-                    
-                  }
-                ),
-              );
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return const CircularProgressIndicator();
+                  break;
+                case ConnectionState.active:
+                  return const CircularProgressIndicator();
+                  break;
+                case ConnectionState.none:
+                  return const CircularProgressIndicator();
+                  break;
+                case ConnectionState.done:
+                  return Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index){
+                        return CommonStatementItem(inputdata: snapshot.data[index]);
+                      }
+                    ),
+                  );
+                  break;
+                default:
+                  return const CircularProgressIndicator();
+              }
+              
             } 
           ),
         ],

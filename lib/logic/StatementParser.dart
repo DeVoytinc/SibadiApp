@@ -21,7 +21,7 @@ class StatementParser{
   late int semNumber;
   List<CommonStatement> disciplines = <CommonStatement>[];
   List<DiscipStatementData> currentGroupStatement = [];
-  List<List<DiscipStatementData>> allDataForAllDisciplines = [];
+  Map<CommonStatement, List<DiscipStatementData>> allDataForAllDisciplines = {};
   List<DiscipStatementData> personalStatement = [];
 
   init(BuildContext context, int semNumber){
@@ -43,13 +43,26 @@ class StatementParser{
   } 
 
   Future<List<CommonStatement>> getListOfDisciplines() async{
-    // if (disciplines.isNotEmpty) {
-    //   return disciplines;
-    // }
+
     disciplines.clear();
     var client = http.Client();
+
+    //Каждый год летом это значение надо обновлять
+    String zach = '56528';
+
+    if (zachetkaNumber != '?')
+      zach = zachetkaNumber;
+
+    DateTime curdate = DateTime.now();
+    DateTime firstSeptember = DateTime(curdate.year, 8, 31);
+    String yearsStr = '';
+    if (firstSeptember.isAfter(curdate))
+      yearsStr = (curdate.year - 1).toString() + '-' + curdate.year.toString();
+    else
+      yearsStr = curdate.year.toString() + '-' + (curdate.year + 1).toString();
+
     final response =
-    await client.get(Uri.parse('https://umu.sibadi.org/Ved/TotalVed.aspx?year=2022-2023&sem=${semNumber.toString()}&id=${zachetkaNumber}'));
+    await client.get(Uri.parse('https://umu.sibadi.org/Ved/TotalVed.aspx?year=${yearsStr}&sem=${semNumber.toString()}&id=${zach}'));
     
     List<CommonStatement> resultList = [];
 
@@ -84,6 +97,13 @@ class StatementParser{
   }
 
   Future<List<DiscipStatementData>> getGroupData(CommonStatement commonStatement) async {
+
+    // if(allDataForAllDisciplines[commonStatement] != null){
+    //   return allDataForAllDisciplines[commonStatement]!;
+    // }
+
+    List<DiscipStatementData> tempCommonGroupStatement = [];
+
     var client = http.Client();
     final response =
     await client.get(Uri.parse('https://umu.sibadi.org/Ved/Ved.aspx?id=${commonStatement.id}'));
@@ -99,7 +119,7 @@ class StatementParser{
       print(discipType);
       if (discipType == 'Курсовой проект' || discipType == 'Курсовая работа' || discipType == 'Практика'){
         for(int i = 1; i < zachetkatable!.nodes[1].nodes.length-1; i++){
-          currentGroupStatement.add(DiscipStatementData(
+          tempCommonGroupStatement.add(DiscipStatementData(
             disciplineName: commonStatement.disciplineName,
             number: zachetkatable.nodes[1].nodes[i].nodes[1].text ?? '', 
             zachetka: windows1251.decode(zachetkatable.nodes[1].nodes[i].nodes[2].text!.codeUnits), 
@@ -129,7 +149,7 @@ class StatementParser{
             other: markstable.nodes[1].nodes[i+2].nodes[9].text.toString(), 
             result: markstable.nodes[1].nodes[i+2].nodes[10].text.toString()
           );
-          currentGroupStatement.add(DiscipStatementData(
+          tempCommonGroupStatement.add(DiscipStatementData(
             disciplineName: commonStatement.disciplineName,
             number: zachetkatable.nodes[1].nodes[i].nodes[1].text ?? '', 
             zachetka: windows1251.decode(zachetkatable.nodes[1].nodes[i].nodes[2].text!.codeUnits), 
@@ -143,23 +163,33 @@ class StatementParser{
         }
 
       }
-      //print(itemcount);
-      return currentGroupStatement;
+      allDataForAllDisciplines[commonStatement] = tempCommonGroupStatement;
+      print(tempCommonGroupStatement.length);
+      return tempCommonGroupStatement;
       }
-      //disciplines.add('хуй');    
-    return currentGroupStatement;
+    allDataForAllDisciplines[commonStatement] = tempCommonGroupStatement;
+    return tempCommonGroupStatement;
   }
 
   //List alldiscipData = []; 
   Future<List<DiscipStatementData>> getPersonalData() async {
-    allDataForAllDisciplines.clear();
+    //allDataForAllDisciplines.clear();
     personalStatement.clear();
 
     var disc = await _disciplines;
     int zachetkanumber = -1;
     for (var i = 0; i < disc.length; i++) {
-      var groupstatement = await getGroupData(disc[i]);
-      allDataForAllDisciplines.add(groupstatement);
+
+      var groupstatement;
+
+    if (allDataForAllDisciplines[disc[i]] != null){
+      groupstatement = allDataForAllDisciplines[disc[i]]!;
+    }else{
+      groupstatement = await getGroupData(disc[i]);
+    }
+
+
+      //allDataForAllDisciplines[disc[i]] = groupstatement;
 
       if (zachetkanumber == -1){
         for (var j = 0; j < groupstatement.length; j++) {

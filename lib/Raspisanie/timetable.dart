@@ -101,7 +101,7 @@ class _TimeTableState extends State<TimeTable>
     else{
       durationfromlastsave = Duration.zero;
     }
-    if ((durationfromlastsave < Duration(hours: 12) && raspisjson != null) || newrasp == true) {
+    if ((durationfromlastsave < Duration(hours: 12) && raspisjson != null) && newrasp == true) {
       final jsonmap = jsonDecode(raspisjson!);
       var rasplist = jsonmap['data']['rasp'];
       for (int i = 0; i < rasplist.length; i++) {

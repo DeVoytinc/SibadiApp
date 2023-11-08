@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
@@ -57,9 +58,7 @@ main() async {
     selectedZachetka = savedZachetka;
     isautorizesd = true;
   }
-  runApp(isautorizesd ? MyApp() : MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: Autorisation()));
+  runApp(MyApp());
 }
 
 void clearSharedPrefrences() async{
@@ -236,7 +235,26 @@ class MyApp extends StatelessWidget {
           theme: lightThemeData(context),
           darkTheme: darkThemeData(context),
           themeMode: themeProvider.themeMode,
-          home: MyCustomSplashScreen(),
+          home: isautorizesd ? MyCustomSplashScreen() : StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError){
+                return Text(snapshot.error.toString());
+              }
+              if (snapshot.connectionState == ConnectionState.active){
+                if (snapshot.data == null){
+                  print(snapshot.data.toString());
+                  return Autorisation();
+
+                }
+                else {
+                  return ChooseGroup();
+                }
+              }else{
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
         );
       }
     );

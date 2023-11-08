@@ -1,6 +1,11 @@
 import 'dart:collection';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../firebase/firebase_auth_user.dart';
 
 class EventFitnessDay {
   // final String title;
@@ -51,6 +56,7 @@ class _FitnessScreenState extends State<FitnessScreen> {
 
   late DateTime _selectedDay = DateTime.now();
   late DateTime _focusedDay = DateTime.now();
+  final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
   CalendarFormat _calendarFormat = CalendarFormat.month;
   late final ValueNotifier<List<EventFitnessDay>> _selectedEvents;
 
@@ -174,12 +180,20 @@ class _FitnessScreenState extends State<FitnessScreen> {
             Padding(
               padding: const EdgeInsets.all(30.0),
               child: ElevatedButton(
-                onPressed: (){
+                onPressed: () async{
                   setState(() 
                     {
                       _addFitnessday();
                     }
                   );
+                  await FirebaseFirestore.instance.collection('users')
+                    .doc(FirebaseAuth.instance.currentUser?.uid)
+                    .update({
+                      'trainings': List.generate(kEvents.length, (index) => dateFormat.
+                      format(kEvents.keys.elementAt(index))),
+                    }
+                  );
+                  
                 }, 
                 child: Text(
                   _selectedDay.compareTo(kToday) < 0 

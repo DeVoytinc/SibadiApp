@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 2.0.0+2
+version: 2.0.0+4
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
@@ -36,7 +36,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  convex_bottom_bar: ^3.1.0+1
   flutter_typeahead: ^4.1.1
   requests: ^4.7.0
   http: any
@@ -62,6 +61,8 @@ dependencies:
   firebase_auth: ^4.6.3
   svg_path_parser: ^1.1.1
   google_sign_in: ^6.1.4
+  fluttertoast: ^8.2.2
+  cloud_firestore: any
   
 
 dev_dependencies:
@@ -95,6 +96,8 @@ flutter:
     - lib/images/1 korpus/
     - lib/images/2 korpus/
     - lib/images/3 korpus/
+    - lib/images/4 korpus/
+    - lib/images/potoch korpus/
     
     #- lib/resourses_data/groups_file.txt
   # An image asset can refer to one or more resolution-specific "variants", see

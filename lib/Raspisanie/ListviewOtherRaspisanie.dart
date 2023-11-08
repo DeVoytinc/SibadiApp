@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled1/Raspisanie/timetable.dart';
 import 'package:untitled1/main.dart';
-
 import 'getAudsInRaspisanie.dart';
 
 //List<BaseList> favoritelist = [];
@@ -40,7 +39,7 @@ class _ListViewOtherrasrisanieState extends State<ListViewOtherrasrisanie> {
         future: getListInRaspisanie(urls[widget.tabIndex], widget.searchWord, widget.tabIndex),
         builder: (context, AsyncSnapshot snap) {
           if (snap.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else {
@@ -55,12 +54,12 @@ class _ListViewOtherrasrisanieState extends State<ListViewOtherrasrisanie> {
                           color: Theme.of(context).canvasColor,
                           borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
-                        style: ButtonStyle(
+                        style: const ButtonStyle(
                           alignment: Alignment.centerLeft,
                         ),
                         onPressed: () {
                           savedRaspis.add(ListInRaspisanie[j]); 
-                          if (savedRaspis.length >= 7){
+                          if (savedRaspis.length >= 7) {
                             savedRaspis.removeAt(1);
                           }
                           setListRaspisaniy(savedRaspis);
@@ -72,7 +71,7 @@ class _ListViewOtherrasrisanieState extends State<ListViewOtherrasrisanie> {
                             Text(
                               ListInRaspisanie[j].name,
                               textAlign: TextAlign.left,
-                              style: TextStyle(
+                              style:const  TextStyle(
                                 color: Colors.white60,
                                 fontSize: 17,
                                 fontWeight: FontWeight.w400,

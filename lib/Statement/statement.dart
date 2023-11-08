@@ -24,6 +24,15 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
   int semNumber = DateTime.now().month > 6 ? 1 : 2;
   StatementParser statementParser = StatementParser();
 
+  late Future getPersonalData;
+
+
+
+  getGroup() async {
+    return statementParser.getPersonalData(); 
+  }
+
+
   void goBack(BuildContext context){
     Navigator.pop(context);
   }
@@ -38,10 +47,11 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
   }
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
     statementParser.init(context, semNumber);
     //statementParser.init();
+    getPersonalData = getGroup();
     _tabController = TabController(length: 2, vsync: this);
     //getData();
   }
@@ -65,12 +75,35 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
             FutureBuilder(
               future: statementParser.getListOfDisciplines(),
               builder: (context, AsyncSnapshot snapshot) {
-                if (!snapshot.hasData){
+                
+                if (snapshot.connectionState == ConnectionState.waiting){
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
                 else {
+                  if (statementParser.disciplines.length == 0){
+                    return const Center(
+                      child: Text('Ведомости пока нет'),
+                    );
+                  }
+                  else if (selectedZachetka.kod == '?' && selectedZachetka.name == '?') {
+                    return Center(
+                      child: Column(
+                        children: [
+                          const Text('Выбери номер своей зачетки чтобы ведомость появилась'),
+                          ElevatedButton(onPressed: (){
+                            Navigator.push(
+                              context, 
+                              new MaterialPageRoute(builder: (BuildContext context) => 
+                                new ChooseZachetca()
+                              )
+                            );
+                          }, child: Text('Выбрать зачетку'))
+                        ],
+                      ),
+                    );
+                  }
                   return Container(
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
@@ -154,15 +187,16 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                 }
               )
               : Center(child: Container(child: Text("Нет подключения к интернету"),)),
-              //Container(),
+              // Container(),
               FutureBuilder(
-                future: statementParser.getPersonalData(),
+                future: getPersonalData,
                 builder: (context, AsyncSnapshot snapshot){
-                  if (!snapshot.hasData) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   }
                   else{
-                    return ListView.builder(
+                    return 
+                    ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: statementParser.personalStatement.length,
                       itemBuilder: (BuildContext context, int index){
@@ -172,22 +206,6 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                   }
                 }
               )
-              
-      //     ListView(
-      //       children: [
-      //         PersonalStatementItem(),
-      //         PersonalStatementItem(),
-      //         PersonalStatementItem(),
-      //         PersonalStatementItem(),
-      //         PersonalStatementItem(),
-      //         PersonalStatementItem(),
-      //         PersonalStatementItem(),
-      //         PersonalStatementItem(),
-      //         PersonalStatementItem(),
-      //         PersonalStatementItem(),
-      //         PersonalStatementItem(),
-      //       ],
-      //     )
        ],
       ),
       ),
@@ -220,14 +238,6 @@ class _TopTabBarStatementState extends State<TopTabBarStatement> with SingleTick
                     ),
                   ),
                 ),
-                // Tab(
-                //   child: Text(
-                //     'Долги',
-                //     style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
-                //       fontSize: 20,
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
