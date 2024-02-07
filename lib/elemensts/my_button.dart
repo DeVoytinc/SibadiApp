@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:untitled1/main.dart';
 
-import '../main.dart';
 class MyButton extends StatelessWidget {
   const MyButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => runApp(MyApp()),
+  Widget build(BuildContext context) => GestureDetector(
+      onTap: () => runApp(const MyApp()),
       child: Container(
         padding: const EdgeInsets.all(25),
         margin: const EdgeInsets.symmetric(horizontal: 25),
@@ -27,5 +26,4 @@ class MyButton extends StatelessWidget {
         ),
       ),
     );
-  }
 }

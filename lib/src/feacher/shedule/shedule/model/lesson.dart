@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
-import '../main.dart';
-import '../mycolors.dart';
+import 'package:untitled1/main.dart';
+import 'package:untitled1/mycolors.dart';
 
 class Lesson {
-
   late String disciplineName;
   //String customName = '';
   late String lessonType;
@@ -27,28 +25,26 @@ class Lesson {
     required this.lessonNumber,
   });
 
-  Lesson.fromJson(Map<String, dynamic> json){
-    disciplineName = json['дисциплина'];
-    if (disciplineName.startsWith('пр.')){
+  Lesson.fromJson(Map<String, dynamic> json) {
+    disciplineName = json['дисциплина'] as String;
+    if (disciplineName.startsWith('пр.')) {
       lessonType = 'Практика';
-      color = dartMode  ? myyellow : myyellowDark;
-    }
-    else if (disciplineName.startsWith('лаб')){
+      color = dartMode ? myyellow : myyellowDark;
+    } else if (disciplineName.startsWith('лаб')) {
       lessonType = 'Лабораторная';
-      color = dartMode  ? myviolet :  myvioletDark;
-    } 
-    else{
+      color = dartMode ? myviolet : myvioletDark;
+    } else {
       lessonType = 'Лекция';
-      color = dartMode  ? mygreen : mygreenDark;
+      color = dartMode ? mygreen : mygreenDark;
     }
-    startTime = json['начало'];
-    finishTime = json['конец'];
-    teacherName = json['преподаватель'];
-    auditory = json['аудитория'];
-    groupname = json['группа'];
-    daynumber = json['деньНедели'];
-    lessonNumber = json['номерЗанятия'];
-    date = json['дата'];
+    startTime = json['начало'] as String;
+    finishTime = json['конец'] as String;
+    teacherName = json['преподаватель'] as String;
+    auditory = json['аудитория'] as String;
+    groupname = json['группа'] as String;
+    daynumber = json['деньНедели'] as int;
+    lessonNumber = json['номерЗанятия'] as int;
+    date = json['дата'] as String;
     disciplineName = disciplineName.substring(4);
   }
 
@@ -63,11 +59,8 @@ class Lesson {
         'номерЗанятия': lessonNumber,
         'дата': date,
         'группа': groupname,
-        
-  };
+      };
 
   @override
-  String toString() {
-    return '$lessonType, $disciplineName';
-  }
+  String toString() => '$lessonType, $disciplineName';
 }

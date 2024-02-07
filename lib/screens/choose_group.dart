@@ -1,18 +1,14 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled1/firebase/firebase_auth_user.dart';
+import 'package:untitled1/main.dart';
 import 'package:untitled1/screens/autorizationWiget.dart';
 import 'package:untitled1/screens/choose_zachetkanumber.dart';
-
-import '../main.dart';
-import 'home_wiget.dart';
 
 late Group selectedGroup;
 var searchGroups = groups;
 
 class ChooseGroup extends StatefulWidget{
-  ChooseGroup({Key? key}) : super(key: key);
+  const ChooseGroup({super.key});
 
   @override
   _ChooseGroupState createState() => _ChooseGroupState();
@@ -25,18 +21,18 @@ class _ChooseGroupState extends State<ChooseGroup> with SingleTickerProviderStat
     Navigator.pop(context);
   }
 
-  void goToNextPage(BuildContext context) async{
-    List<Zachetka> zach = await getZachetcki();
-    if (zach.length == 0){
-      selectedZachetka = Zachetka(kod: '?', name: '?');
-      setSelectedZachetka();
-      Navigator.pushAndRemoveUntil(
+  Future<void> goToNextPage(BuildContext context) async{
+    final List<Zachetka> zach = await getZachetcki();
+    if (zach.isEmpty){
+      selectedZachetka = const Zachetka(kod: '?', name: '?');
+      await setSelectedZachetka();
+      await Navigator.pushAndRemoveUntil(
         context, 
-        new MaterialPageRoute(builder: (BuildContext context) => 
-          new MyHomePage()
+        MaterialPageRoute(builder: (BuildContext context) => 
+          const MyHomePage()
         ), (Route<dynamic> route) => false);
     } else {
-      Navigator.push(
+      await Navigator.push(
         context, 
         new MaterialPageRoute(builder: (BuildContext context) => 
           new ChooseZachetca()
@@ -56,24 +52,21 @@ class _ChooseGroupState extends State<ChooseGroup> with SingleTickerProviderStat
   TextEditingController searchTextController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 20, 106, 255),
-        title: Container(
-          child: Center(
-            child: Text("Номер группы",),
-          ),
+        backgroundColor: const Color.fromARGB(255, 20, 106, 255),
+        title: const Center(
+          child: const Text("Номер группы",),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,
+          icon: const Icon(Icons.arrow_back,
           color: Colors.white,),
           onPressed: () {
             goBack(context);
           },
         ),
-        actions: [Icon(Icons.arrow_back,
+        actions: const [Icon(Icons.arrow_back,
           color: Color.fromARGB(255, 20, 106, 255),
           ),
         ]
@@ -84,7 +77,7 @@ class _ChooseGroupState extends State<ChooseGroup> with SingleTickerProviderStat
             padding: const EdgeInsets.only(top: 12, left: 15, right: 15),
             child: TextField(
               controller: searchTextController,
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
               decoration: const InputDecoration(
                 labelText: 'Поиск',
                 labelStyle: TextStyle(color: Colors.black38),
@@ -112,8 +105,7 @@ class _ChooseGroupState extends State<ChooseGroup> with SingleTickerProviderStat
                   return ListView.builder(
                     controller: ScrollController(),
                     itemCount: searchGroups.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
+                    itemBuilder: (BuildContext context, int index) => GestureDetector(
                         onTap: () {
                           selectedGroup = searchGroups[index];
                           setSelectedGroup();
@@ -121,10 +113,10 @@ class _ChooseGroupState extends State<ChooseGroup> with SingleTickerProviderStat
                         },
                         child: Container(
                           
-                          margin: EdgeInsets.only(top: 15, left: 15, right: 15),
+                          margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
                           decoration: BoxDecoration (
                           borderRadius: BorderRadius.circular(6),
-                          color: Color.fromARGB(255, 20, 106, 255),
+                          color: const Color.fromARGB(255, 20, 106, 255),
                           ),
                           height: 75,
                           child: Column(
@@ -139,7 +131,7 @@ class _ChooseGroupState extends State<ChooseGroup> with SingleTickerProviderStat
                                       padding: const EdgeInsets.only(right: 13.0),
                                       child: Text(
                                         (index + 1).toString(),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                         fontSize: 25,
                                         color: Color.fromARGB(255, 255, 255, 255),
                                         ),
@@ -153,14 +145,14 @@ class _ChooseGroupState extends State<ChooseGroup> with SingleTickerProviderStat
                                           children: [
                                             Text(
                                               searchGroups[index].name,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                               fontSize: 20,
                                               color: Color.fromARGB(255, 255, 255, 255),
                                               ),
                                             ),
                                             Text(
                                               searchGroups[index].fack,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                               fontSize: 15,
                                               color: Color.fromARGB(144, 255, 255, 255),
                                               ),
@@ -176,12 +168,11 @@ class _ChooseGroupState extends State<ChooseGroup> with SingleTickerProviderStat
                             ],
                           ),
                         ),
-                      );
-                    }
+                      )
                   );
                 }
                 else{
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
               },
             ),
@@ -189,5 +180,4 @@ class _ChooseGroupState extends State<ChooseGroup> with SingleTickerProviderStat
         ],
       ),
     );
-  }
 }

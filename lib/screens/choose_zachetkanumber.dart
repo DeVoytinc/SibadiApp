@@ -1,55 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
+import 'package:http/http.dart' as http;
 import 'package:untitled1/main.dart';
 import 'package:untitled1/screens/autorizationWiget.dart';
-import 'package:http/http.dart' as http;
 import 'package:untitled1/screens/choose_group.dart';
 import 'package:windows1251/windows1251.dart';
-import 'package:html/parser.dart';
 
 late Zachetka selectedZachetka;
 late List<Zachetka> zachetki = [];
 
-class ChooseZachetca extends StatefulWidget{
-  ChooseZachetca({Key? key}) : super(key: key);
+class ChooseZachetca extends StatefulWidget {
+  const ChooseZachetca({super.key});
 
   @override
   _ChooseZachetcaState createState() => _ChooseZachetcaState();
 }
 
-  Future<List<Zachetka>> getZachetcki() async {
-    zachetki.clear();
-    Uri uri = Uri.parse('https://umu.sibadi.org/Totals/Totals.aspx?group=${selectedGroup.link}');
+Future<List<Zachetka>> getZachetcki() async {
+  zachetki.clear();
+  final Uri uri = Uri.parse(
+    'https://umu.sibadi.org/Totals/Totals.aspx?group=${selectedGroup.link}',
+  );
 
-    final response =
-    await http.Client().get(uri);
+  final response = await http.Client().get(uri);
 
-    if (response.statusCode == 200) {
-      var document = parse(response.body, encoding:'utf-8');
-      var table = document.getElementsByClassName('TitleVedInf');
-      for(int i = 3; i < table.length; i++){
-        var a = table[i].getElementsByTagName('a');
-        zachetki.add(Zachetka(name: windows1251.decode(a[0].text.codeUnits), kod: a[0].attributes.values.first.split('id=')[1]));
-      }
+  if (response.statusCode == 200) {
+    final document = parse(response.body, encoding: 'utf-8');
+    final table = document.getElementsByClassName('TitleVedInf');
+    for (int i = 3; i < table.length; i++) {
+      final a = table[i].getElementsByTagName('a');
+      zachetki.add(
+        Zachetka(
+          name: windows1251.decode(a[0].text.codeUnits),
+          kod: a[0].attributes.values.first.split('id=')[1],
+        ),
+      );
     }
-    return zachetki;
-    
   }
+  return zachetki;
+}
 
-class _ChooseZachetcaState extends State<ChooseZachetca> with SingleTickerProviderStateMixin{
-
-  void goBack(BuildContext context){
+class _ChooseZachetcaState extends State<ChooseZachetca>
+    with SingleTickerProviderStateMixin {
+  void goBack(BuildContext context) {
     Navigator.pop(context);
   }
 
-  void goToNextPage(BuildContext context){
+  void goToNextPage(BuildContext context) {
     Navigator.pushAndRemoveUntil(
-      context, 
-      new MaterialPageRoute(builder: (BuildContext context) => 
-        new MyHomePage()
-      ), (Route<dynamic> route) => false);
+      context,
+      MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => const MyHomePage(),
+      ),
+      (Route<dynamic> route) => false,
+    );
     //);
   }
-
 
   @override
   void initState() {
@@ -58,86 +64,84 @@ class _ChooseZachetcaState extends State<ChooseZachetca> with SingleTickerProvid
     });
     super.initState();
   }
-  
-   @override
+
+  @override
   Widget build(BuildContext context) {
     getZachetcki();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 20, 106, 255),
-        title: Center(
-          child: Text("Номер зачётки",
-        ),
+        backgroundColor: const Color.fromARGB(255, 20, 106, 255),
+        title: const Center(
+          child: Text(
+            "Номер зачётки",
+          ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,
-          color: Colors.white,),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
           onPressed: () {
             goBack(context);
           },
         ),
-       actions: [Padding(
-         padding: const EdgeInsets.all(14.0),
-         child: Icon(Icons.arrow_back,
-            color: Color.fromARGB(255, 20, 106, 255),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.all(14.0),
+            child: Icon(
+              Icons.arrow_back,
+              color: Color.fromARGB(255, 20, 106, 255),
             ),
-       ),
-        ]
+          ),
+        ],
       ),
       body: Column(
         children: [
           Expanded(
-            child: Container(
-              child: FutureBuilder(
-                future: getZachetcki(),
-                builder: (context, snapshot) {
-                  return ListView.builder(
-                    controller: ScrollController(),
-                    itemCount: zachetki.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: () {
-                          selectedZachetka = zachetki[index];
-                          setSelectedZachetka();
-                          //runApp(MyApp());
-                          goToNextPage(context);
-                        },
-                        child: Container( 
-                              margin: EdgeInsets.only(top: 15, left: 15, right: 15),
-                              decoration: BoxDecoration (
-                              borderRadius: BorderRadius.circular(6),
-                              color: Color.fromARGB(255, 20, 106, 255),
+            child: FutureBuilder(
+              future: getZachetcki(),
+              builder: (context, snapshot) => ListView.builder(
+                controller: ScrollController(),
+                itemCount: zachetki.length,
+                itemBuilder: (BuildContext context, int index) =>
+                    GestureDetector(
+                  onTap: () {
+                    selectedZachetka = zachetki[index];
+                    setSelectedZachetka();
+                    //runApp(MyApp());
+                    goToNextPage(context);
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: const Color.fromARGB(255, 20, 106, 255),
+                    ),
+                    height: 70,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(child: Container()),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                zachetki[index].name,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
                               ),
-                              height: 70,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(child: Container()),
-                                  Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          zachetki[index].name,
-                                          style: TextStyle(
-                                          fontSize: 20,
-                                          color: Color.fromARGB(255, 255, 255, 255),
-                                          ),
-                                        ),
-                                      ],
-                  
-                                    ),
-                                  ),
-                                  Expanded(child: Container()),
-                                ],
-                              ),
-                            ),
-                      );
-                    }
-                  );
-                  
-                }
+                            ],
+                          ),
+                        ),
+                        Expanded(child: Container()),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -145,7 +149,6 @@ class _ChooseZachetcaState extends State<ChooseZachetca> with SingleTickerProvid
       ),
     );
   }
-
 }
 
 class Zachetka {
@@ -158,9 +161,7 @@ class Zachetka {
   final String name;
 
   @override
-  String toString() {
-    return '$name, $kod';
-  }
+  String toString() => '$name, $kod';
 
   @override
   bool operator ==(Object other) {
@@ -171,8 +172,8 @@ class Zachetka {
   }
 
   Zachetka.fromJson(Map<String, dynamic> json)
-      : kod = json['kod'],
-        name = json['name'];
+      : kod = json['kod'] as String,
+        name = json['name'] as String;
 
   Map<String, dynamic> toJson() => {
         'kod': kod,

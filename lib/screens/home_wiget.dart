@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:untitled1/firebase/firebase_auth_user.dart';
 import 'package:untitled1/main.dart';
 //import 'package:untitled1/elemensts/drawer.dart';
 import 'package:untitled1/mycolors.dart';
@@ -13,9 +13,6 @@ import 'package:untitled1/screens/services_screen/block_screen.dart';
 import 'package:untitled1/screens/services_screen/fitness_screen.dart';
 import 'package:untitled1/screens/services_screen/map.dart';
 import 'package:untitled1/screens/services_screen/money_screen.dart';
-import 'package:untitled1/screens/services_screen/spravki_screen.dart';
-
-import '../firebase/firebase_auth_user.dart';
 // import 'package:http/http.dart' as http; 
 // import 'package:html/parser.dart';
 
@@ -64,12 +61,11 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
    // _tabController.dispose();
   }
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         key: scaffoldKey,
         //backgroundColor: Theme.of(context).colorScheme.secondary,
         drawer: //MyDrawer(),
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width * 0.85,
           child: Drawer(
             elevation: 16,
@@ -78,15 +74,15 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 60,),
+                  const SizedBox(height: 60,),
                   Container(
                     height: 70,
                     width: 70,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: mygreenDark,
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Icon(Icons.person, size: 35,),
                       // child: Text(
                       //   '5',
@@ -97,14 +93,14 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                       // )
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Text(
                     selectedGroup.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 30
                       ),
                     ),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                   Text(
                     selectedZachetka.name,
                     style: TextStyle(
@@ -113,8 +109,8 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                     ),
                   ),
                   //SizedBox(height: 20,),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20.0),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 20.0),
                     child: Divider(),
                   ),
                   TextButton(onPressed: (){
@@ -124,7 +120,7 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                         builder: (BuildContext context) => 
                           new AboutApp())
                     );
-                    }, child: Text('О приложении', style: TextStyle(
+                    }, child: const Text('О приложении', style: TextStyle(
                     color: Colors.white,
                     fontSize: 17,
                     fontWeight: FontWeight.w400
@@ -137,8 +133,8 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                   //   ]),
                   // ),
                   Expanded(child: Container(),),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20.0),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 20.0),
                     child: Divider(),
                   ), 
                   Container(
@@ -158,7 +154,7 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                           },
 
 
-                        child: Text(
+                        child: const Text(
                           'Выйти',
                           style: TextStyle(
                             color: Colors.red,
@@ -222,12 +218,12 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).canvasColor,
                         shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-                        fixedSize: Size(100, 100),
+                        fixedSize: const Size(100, 100),
                       ),
-                      child: Icon(Icons.map, size: 70,),
+                      child: const Icon(Icons.map, size: 70,),
                     ),
                   ),
-                Text("Карта")
+                const Text("Карта")
                 ],
               ),
               Column(
@@ -247,12 +243,12 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).canvasColor,
                         shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-                        fixedSize: Size(100, 100),
+                        fixedSize: const Size(100, 100),
                       ),
-                      child:  Icon(Icons.description_outlined, size: 70,),
+                      child:  const Icon(Icons.description_outlined, size: 70,),
                     ),
                   ),
-                Text("Справки")
+                const Text("Справки")
                 ],
               ),
               Column(
@@ -272,12 +268,12 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).canvasColor,
                         shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-                        fixedSize: Size(100, 100),
+                        fixedSize: const Size(100, 100),
                       ),
-                      child:  Icon(Icons.attach_money, size: 70,),
+                      child:  const Icon(Icons.attach_money, size: 70,),
                     ),
                   ),
-                Text("Стипендии")
+                const Text("Стипендии")
                 ],
               ),
               Column(
@@ -297,12 +293,12 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).canvasColor,
                         shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-                        fixedSize: Size(100, 100),
+                        fixedSize: const Size(100, 100),
                       ),
-                      child:  Icon(Icons.menu_book_sharp, size: 70,),
+                      child:  const Icon(Icons.menu_book_sharp, size: 70,),
                     ),
                   ),
-                Text("Библиотека")
+                const Text("Библиотека")
                 ],
               ),
               Column(
@@ -320,12 +316,12 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).canvasColor,
                         shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-                        fixedSize: Size(100, 100),
+                        fixedSize: const Size(100, 100),
                       ),
-                      child:  Icon(Icons.portrait_rounded, size: 70,),
+                      child:  const Icon(Icons.portrait_rounded, size: 70,),
                     ),
                   ),
-                Text("Портфолио")
+                const Text("Портфолио")
                 ],
               ),
               Column(
@@ -359,12 +355,12 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).canvasColor,
                         shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-                        fixedSize: Size(100, 100),
+                        fixedSize: const Size(100, 100),
                       ),
-                      child:  Icon(Icons.fitness_center_rounded, size: 70,),
+                      child:  const Icon(Icons.fitness_center_rounded, size: 70,),
                     ),
                   ),
-                Center(child: Text("Планер тренировок"))
+                const Center(child: Text("Планер тренировок"))
                 ],
               ),
             ],
@@ -372,8 +368,8 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
         ),
         appBar: AppBar(
           //backgroundColor: MediaQuery.of(context.),
-          title: Padding(
-            padding: const EdgeInsets.only(top: 0.0, right: 50),
+          title: const Padding(
+            padding: EdgeInsets.only(top: 0.0, right: 50),
             child: Center(
               child: Text(
                 'Сервисы',
@@ -388,7 +384,7 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
             onPressed: () async {
               scaffoldKey.currentState!.openDrawer();
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.menu, 
               //color: myblue,
               ),
@@ -433,7 +429,6 @@ class _TopTabBarState extends State<TopTabBar> with SingleTickerProviderStateMix
           //),
         ),
     );
-  }
 
   _chandeLightMode(){
     if (dartMode){

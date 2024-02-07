@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-import 'main.dart';
+import 'package:untitled1/main.dart';
 
 class MyCustomSplashScreen extends StatefulWidget {
   @override
@@ -23,7 +23,7 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
     super.initState();
 
     _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 3));
+        AnimationController(vsync: this, duration: const Duration(seconds: 3));
 
     animation1 = Tween<double>(begin: 40, end: 20).animate(CurvedAnimation(
         parent: _controller, curve: Curves.fastLinearToSlowEaseIn))
@@ -35,22 +35,22 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
 
     _controller.forward();
 
-    Timer(Duration(seconds: 1), () {
+    Timer(const Duration(seconds: 1), () {
       setState(() {
         _fontSize = 1.06;
       });
     });
 
-    Timer(Duration(seconds: 1), () {
+    Timer(const Duration(seconds: 1), () {
       setState(() {
         _containerSize = 2;
         _containerOpacity = 1;
       });
     });
 
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       setState(() {
-        Navigator.pushReplacement(context, PageTransition(MyHomePage()));
+        Navigator.pushReplacement(context, PageTransition(const MyHomePage()));
       });
     });
   }
@@ -63,8 +63,8 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
-    double _height = MediaQuery.of(context).size.height;
+    final double _width = MediaQuery.of(context).size.width;
+    final double _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 27, 27, 27),
@@ -73,12 +73,11 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
           Column(
             children: [
               AnimatedContainer(
-                duration: Duration(milliseconds: 2000),
-                curve: Curves.fastLinearToSlowEaseIn,
-                height: _height / _fontSize
-              ),
+                  duration: const Duration(milliseconds: 2000),
+                  curve: Curves.fastLinearToSlowEaseIn,
+                  height: _height / _fontSize),
               AnimatedOpacity(
-                duration: Duration(milliseconds: 1000),
+                duration: const Duration(milliseconds: 1000),
                 opacity: _textOpacity,
                 child: Text(
                   'Мой СибАДИ',
@@ -93,11 +92,11 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
           ),
           Center(
             child: AnimatedOpacity(
-              duration: Duration(milliseconds: 2000),
+              duration: const Duration(milliseconds: 2000),
               curve: Curves.fastLinearToSlowEaseIn,
               opacity: _containerOpacity,
               child: AnimatedContainer(
-                duration: Duration(milliseconds: 2000),
+                duration: const Duration(milliseconds: 2000),
                 curve: Curves.fastLinearToSlowEaseIn,
                 height: _width / _containerSize,
                 width: _width / _containerSize,
@@ -122,13 +121,13 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
   }
 }
 
-class PageTransition extends PageRouteBuilder {
+class PageTransition extends PageRouteBuilder<dynamic> {
   final Widget page;
 
   PageTransition(this.page)
       : super(
           pageBuilder: (context, animation, anotherAnimation) => page,
-          transitionDuration: Duration(milliseconds: 2000),
+          transitionDuration: const Duration(milliseconds: 2000),
           transitionsBuilder: (context, animation, anotherAnimation, child) {
             animation = CurvedAnimation(
               curve: Curves.fastLinearToSlowEaseIn,
@@ -139,7 +138,6 @@ class PageTransition extends PageRouteBuilder {
               child: SizeTransition(
                 sizeFactor: animation,
                 child: page,
-                axisAlignment: 0,
               ),
             );
           },
