@@ -88,7 +88,6 @@ class _TimeTableState extends State<TimeTable>
   Map<DateTime, List<Lesson>> getSheduleFromJson(String json){
     final jsonmap = jsonDecode(json);
         final rasplist = jsonmap['data']['rasp'] as List;
-        //var firstIndex = Lesson.fromJson(rasplist).
         for (int i = 0; i < rasplist.length; i++) {
           raspisanie.add(Lesson.fromJson(rasplist[i] as Map<String, dynamic>));
         }

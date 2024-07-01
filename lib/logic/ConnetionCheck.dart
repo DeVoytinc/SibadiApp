@@ -12,7 +12,6 @@ Future<bool> CheckConnection() async{
       return isConnected;
     }
   } on SocketException catch (_) {
-    //print('not connected');
     return isConnected;
   }
   return isConnected;
